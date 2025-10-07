@@ -1,0 +1,130 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// 사용자 (관리자)
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String
+  role      Role     @default(ADMIN)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  posts     Post[]
+  galleries Gallery[]
+  
+  @@map("users")
+}
+
+enum Role {
+  ADMIN
+  SUPER_ADMIN
+}
+
+// 공지사항
+model Notice {
+  id        String   @id @default(cuid())
+  title     String
+  content   String   @db.Text
+  isPinned  Boolean  @default(false)
+  views     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("notices")
+}
+
+// 게시글 (질문과 답변)
+model Post {
+  id        String   @id @default(cuid())
+  title     String
+  content   String   @db.Text
+  author    String
+  password  String?
+  isSecret  Boolean  @default(false)
+  views     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id])
+  
+  replies   Reply[]
+
+  @@map("posts")
+}
+
+// 답글
+model Reply {
+  id        String   @id @default(cuid())
+  content   String   @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  postId    String
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@map("replies")
+}
+
+// 갤러리
+model Gallery {
+  id        String   @id @default(cuid())
+  title     String
+  content   String?  @db.Text
+  images    String[] // JSON array of image URLs
+  views     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id])
+
+  @@map("galleries")
+}
+
+// 온라인 문의
+model Inquiry {
+  id          String        @id @default(cuid())
+  name        String
+  email       String
+  phone       String
+  company     String?
+  message     String        @db.Text
+  status      InquiryStatus @default(PENDING)
+  adminReply  String?       @db.Text
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  @@map("inquiries")
+}
+
+enum InquiryStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+}
+
+// 팝업
+model Popup {
+  id        String   @id @default(cuid())
+  title     String
+  imageUrl  String
+  link      String?
+  posX      Int      @default(0)
+  posY      Int      @default(100)
+  startDate DateTime
+  endDate   DateTime
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("popups")
+}
