@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { Providers } from './providers'
+import './globals.css'
 
 export const metadata: Metadata = {
   title: '서경산업 - 논슬립, 굽도리, 마감재 전문',

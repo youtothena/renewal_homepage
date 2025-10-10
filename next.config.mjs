@@ -8,7 +8,7 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: false,
   },
-  pageExtensions: ['tsx', 'ts', 'jsx', 'js'].map(ext => `page.${ext}`)
+  pageExtensions: ['tsx', 'ts', 'jsx', 'js']
 };
 
 export default nextConfig;
