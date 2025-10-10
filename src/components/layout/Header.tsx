@@ -36,18 +36,18 @@ export default function Header() {
               onMouseEnter={() => setActiveMenu('company')}
               onMouseLeave={() => setActiveMenu(null)}
             >
-              <NavLink href="/about" onClick={closeMobileMenu}>
+              <NavLink href="#" onClick={closeMobileMenu}>
                 회사소개
               </NavLink>
               {activeMenu === 'company' && (
                 <SubMenu>
                   <SubMenuItem>
-                    <Link href="/about/greeting" onClick={closeMobileMenu}>
+                    <Link href="#" onClick={closeMobileMenu}>
                       인사말
                     </Link>
                   </SubMenuItem>
                   <SubMenuItem>
-                    <Link href="/about/location" onClick={closeMobileMenu}>
+                    <Link href="#" onClick={closeMobileMenu}>
                       찾아오시는길
                     </Link>
                   </SubMenuItem>
@@ -59,18 +59,18 @@ export default function Header() {
               onMouseEnter={() => setActiveMenu('products')}
               onMouseLeave={() => setActiveMenu(null)}
             >
-              <NavLink href="/products" onClick={closeMobileMenu}>
+              <NavLink href="#" onClick={closeMobileMenu}>
                 제품소개
               </NavLink>
               {activeMenu === 'products' && (
                 <SubMenu>
                   <SubMenuItem>
-                    <Link href="/products/nonslip" onClick={closeMobileMenu}>
+                    <Link href="#" onClick={closeMobileMenu}>
                       논슬립
                     </Link>
                   </SubMenuItem>
                   <SubMenuItem>
-                    <Link href="/products/baseboard" onClick={closeMobileMenu}>
+                    <Link href="#" onClick={closeMobileMenu}>
                       마감재
                     </Link>
                   </SubMenuItem>
@@ -79,13 +79,13 @@ export default function Header() {
             </NavItem>
 
             <NavItem>
-              <NavLink href="/support" onClick={closeMobileMenu}>
+              <NavLink href="#" onClick={closeMobileMenu}>
                 온라인문의
               </NavLink>
             </NavItem>
 
             <NavItem>
-              <NavLink href="/gallery" onClick={closeMobileMenu}>
+              <NavLink href="#" onClick={closeMobileMenu}>
                 시공갤러리
               </NavLink>
             </NavItem>
@@ -94,7 +94,7 @@ export default function Header() {
 
         {/* 오른쪽 문의하기 버튼 + 햄버거 메뉴 */}
         <RightSection>
-          <ContactButton href="/inquiry">문의하기</ContactButton>
+          <ContactButton href="#">문의하기</ContactButton>
           <HamburgerButton
             onClick={toggleMobileMenu}
             $isOpen={isMobileMenuOpen}

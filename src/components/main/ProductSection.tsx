@@ -18,21 +18,21 @@ const products: Product[] = [
     name: '논슬립',
     description: '안전을 위한 필수 설비',
     image: '/images/test/content_01.png',
-    link: '/products/nonslip',
+    link: '#',
   },
   {
     id: '2',
     name: '마감재',
     description: '건축의 완성도를 높이는 디테일',
     image: '/images/test/content_02.png',
-    link: '/products/baseboard',
+    link: '#',
   },
   {
     id: '3',
     name: '굽도리',
     description: '고급스러운 벽과 바닥의 경계',
     image: '/images/test/content_03.png',
-    link: '/products/finishing',
+    link: '#',
   },
 ]
 
