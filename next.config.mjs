@@ -16,10 +16,7 @@ const nextConfig = {
   // TypeScript 컴파일 제외
   typescript: {
     ignoreBuildErrors: false,
-  },
-  
-  // 빌드 시 특정 디렉토리 제외
-  pageExtensions: ['tsx', 'ts', 'jsx', 'js'].map(ext => `page.${ext}`),
+  }
 };
 
 export default nextConfig;
