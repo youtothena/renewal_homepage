@@ -7,8 +7,7 @@ const nextConfig = {
   // TypeScript 컴파일 제외
   typescript: {
     ignoreBuildErrors: false,
-  },
-  pageExtensions: ['tsx', 'ts', 'jsx', 'js']
+  }
 };
 
 export default nextConfig;
