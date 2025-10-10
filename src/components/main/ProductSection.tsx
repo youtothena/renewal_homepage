@@ -47,7 +47,7 @@ export default function ProductSection() {
           </SectionSubtitle>
         </SectionHeader>
 
-        <ViewAllButton href="/products">바로가기</ViewAllButton>
+        <ViewAllButton href="/#">바로가기</ViewAllButton>
 
         <ProductGrid>
           {products.map((product) => (

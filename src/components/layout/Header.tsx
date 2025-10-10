@@ -36,9 +36,9 @@ export default function Header() {
               onMouseEnter={() => setActiveMenu('company')}
               onMouseLeave={() => setActiveMenu(null)}
             >
-              <NavLink href="#" onClick={closeMobileMenu}>
+              <Link href="#" onClick={closeMobileMenu}>
                 회사소개
-              </NavLink>
+              </Link>
               {activeMenu === 'company' && (
                 <SubMenu>
                   <SubMenuItem>
@@ -59,9 +59,9 @@ export default function Header() {
               onMouseEnter={() => setActiveMenu('products')}
               onMouseLeave={() => setActiveMenu(null)}
             >
-              <NavLink href="#" onClick={closeMobileMenu}>
+              <Link href="#" onClick={closeMobileMenu}>
                 제품소개
-              </NavLink>
+              </Link>
               {activeMenu === 'products' && (
                 <SubMenu>
                   <SubMenuItem>
@@ -79,15 +79,15 @@ export default function Header() {
             </NavItem>
 
             <NavItem>
-              <NavLink href="#" onClick={closeMobileMenu}>
+              <Link href="#" onClick={closeMobileMenu}>
                 온라인문의
-              </NavLink>
+              </Link>
             </NavItem>
 
             <NavItem>
-              <NavLink href="#" onClick={closeMobileMenu}>
+              <Link href="#" onClick={closeMobileMenu}>
                 시공갤러리
-              </NavLink>
+              </Link>
             </NavItem>
           </NavList>
         </NavSection>
