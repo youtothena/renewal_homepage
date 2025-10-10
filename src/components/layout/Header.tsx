@@ -36,20 +36,20 @@ export default function Header() {
               onMouseEnter={() => setActiveMenu('company')}
               onMouseLeave={() => setActiveMenu(null)}
             >
-              <Link href="#" onClick={closeMobileMenu}>
+              <NavLink href="#" onClick={closeMobileMenu}>
                 회사소개
-              </Link>
+              </NavLink>
               {activeMenu === 'company' && (
                 <SubMenu>
                   <SubMenuItem>
-                    <Link href="#" onClick={closeMobileMenu}>
+                    <NavLink href="#" onClick={closeMobileMenu}>
                       인사말
-                    </Link>
+                    </NavLink>
                   </SubMenuItem>
                   <SubMenuItem>
-                    <Link href="#" onClick={closeMobileMenu}>
+                    <NavLink href="#" onClick={closeMobileMenu}>
                       찾아오시는길
-                    </Link>
+                    </NavLink>
                   </SubMenuItem>
                 </SubMenu>
               )}
@@ -59,35 +59,35 @@ export default function Header() {
               onMouseEnter={() => setActiveMenu('products')}
               onMouseLeave={() => setActiveMenu(null)}
             >
-              <Link href="#" onClick={closeMobileMenu}>
+              <NavLink href="#" onClick={closeMobileMenu}>
                 제품소개
-              </Link>
+              </NavLink>
               {activeMenu === 'products' && (
                 <SubMenu>
                   <SubMenuItem>
-                    <Link href="#" onClick={closeMobileMenu}>
+                    <NavLink href="#" onClick={closeMobileMenu}>
                       논슬립
-                    </Link>
+                    </NavLink>
                   </SubMenuItem>
                   <SubMenuItem>
-                    <Link href="#" onClick={closeMobileMenu}>
+                    <NavLink href="#" onClick={closeMobileMenu}>
                       마감재
-                    </Link>
+                    </NavLink>
                   </SubMenuItem>
                 </SubMenu>
               )}
             </NavItem>
 
             <NavItem>
-              <Link href="#" onClick={closeMobileMenu}>
+              <NavLink href="#" onClick={closeMobileMenu}>
                 온라인문의
-              </Link>
+              </NavLink>
             </NavItem>
 
             <NavItem>
-              <Link href="#" onClick={closeMobileMenu}>
+              <NavLink href="#" onClick={closeMobileMenu}>
                 시공갤러리
-              </Link>
+              </NavLink>
             </NavItem>
           </NavList>
         </NavSection>
