@@ -3,19 +3,20 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL") // Supabase Connection Pooling 사용시 필수
 }
 
 // 사용자 (관리자)
 model User {
-  id        String   @id @default(cuid())
+  id        String   @id @default(uuid()) // UUID 사용 (Supabase 권장)
   email     String   @unique
   password  String
   name      String
   role      Role     @default(ADMIN)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
   posts     Post[]
   galleries Gallery[]
@@ -30,79 +31,88 @@ enum Role {
 
 // 공지사항
 model Notice {
-  id        String   @id @default(cuid())
+  id        String   @id @default(uuid())
   title     String
   content   String   @db.Text
-  isPinned  Boolean  @default(false)
+  isPinned  Boolean  @default(false) @map("is_pinned")
   views     Int      @default(0)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
+  @@index([createdAt(sort: Desc)])
+  @@index([isPinned])
   @@map("notices")
 }
 
 // 게시글 (질문과 답변)
 model Post {
-  id        String   @id @default(cuid())
+  id        String   @id @default(uuid())
   title     String
   content   String   @db.Text
   author    String
   password  String?
-  isSecret  Boolean  @default(false)
+  isSecret  Boolean  @default(false) @map("is_secret")
   views     Int      @default(0)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
   
-  userId    String?
-  user      User?    @relation(fields: [userId], references: [id])
+  userId    String?  @map("user_id")
+  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
   
   replies   Reply[]
 
+  @@index([createdAt(sort: Desc)])
+  @@index([userId])
   @@map("posts")
 }
 
 // 답글
 model Reply {
-  id        String   @id @default(cuid())
+  id        String   @id @default(uuid())
   content   String   @db.Text
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
   
-  postId    String
+  postId    String   @map("post_id")
   post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
 
+  @@index([postId])
   @@map("replies")
 }
 
 // 갤러리
 model Gallery {
-  id        String   @id @default(cuid())
+  id        String   @id @default(uuid())
   title     String
   content   String?  @db.Text
   images    String[] // JSON array of image URLs
   views     Int      @default(0)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
   
-  userId    String?
-  user      User?    @relation(fields: [userId], references: [id])
+  userId    String?  @map("user_id")
+  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
 
+  @@index([createdAt(sort: Desc)])
+  @@index([userId])
   @@map("galleries")
 }
 
 // 온라인 문의
 model Inquiry {
-  id          String        @id @default(cuid())
+  id          String        @id @default(uuid())
   name        String
   email       String
   phone       String
   company     String?
   message     String        @db.Text
   status      InquiryStatus @default(PENDING)
-  adminReply  String?       @db.Text
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
+  adminReply  String?       @db.Text @map("admin_reply")
+  createdAt   DateTime      @default(now()) @map("created_at")
+  updatedAt   DateTime      @updatedAt @map("updated_at")
 
+  @@index([createdAt(sort: Desc)])
+  @@index([status])
   @@map("inquiries")
 }
 
@@ -114,17 +124,18 @@ enum InquiryStatus {
 
 // 팝업
 model Popup {
-  id        String   @id @default(cuid())
+  id        String   @id @default(uuid())
   title     String
-  imageUrl  String
+  imageUrl  String   @map("image_url")
   link      String?
-  posX      Int      @default(0)
-  posY      Int      @default(100)
-  startDate DateTime
-  endDate   DateTime
-  isActive  Boolean  @default(true)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  posX      Int      @default(0) @map("pos_x")
+  posY      Int      @default(100) @map("pos_y")
+  startDate DateTime @map("start_date")
+  endDate   DateTime @map("end_date")
+  isActive  Boolean  @default(true) @map("is_active")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
+  @@index([isActive, startDate, endDate])
   @@map("popups")
 }
