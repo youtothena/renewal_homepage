@@ -20,7 +20,8 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: false,
   },
-  pageExtensions: ['tsx', 'ts', 'jsx', 'js']
+  pageExtensions: 'page.tsx',
+
 };
 
 export default nextConfig;
