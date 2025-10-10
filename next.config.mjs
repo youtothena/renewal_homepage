@@ -1,5 +1,8 @@
 const nextConfig = {
   /* config options here */
+  compiler: {
+    emotion: true,
+  },
   
   // scripts 디렉토리를 빌드에서 제외
   webpack: (config, { isServer }) => {
