@@ -1,13 +1,18 @@
 const nextConfig = {
-  /* config options here */
   compiler: {
     emotion: true,
   },
 
-  // TypeScript 컴파일 제외
-  typescript: {
-    ignoreBuildErrors: false,
-  }
+  // 이미지 최적화
+  images: {
+    unoptimized: false,
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '**',
+      },
+    ],
+  },
 };
 
 export default nextConfig;

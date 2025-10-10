@@ -3,14 +3,13 @@ generator client {
 }
 
 datasource db {
-  provider  = "postgresql"
-  url       = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL") // Supabase Connection Pooling 사용시 필수
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 // 사용자 (관리자)
 model User {
-  id        String   @id @default(uuid()) // UUID 사용 (Supabase 권장)
+  id        String   @id @default(uuid())
   email     String   @unique
   password  String
   name      String
@@ -85,7 +84,7 @@ model Gallery {
   id        String   @id @default(uuid())
   title     String
   content   String?  @db.Text
-  images    String[] // JSON array of image URLs
+  images    String[]
   views     Int      @default(0)
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
