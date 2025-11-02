@@ -4,7 +4,7 @@ import styled from '@emotion/styled'
 import { theme } from '@/styles/theme'
 import Link from 'next/link'
 
-export default function HeroSection() {
+export default function MainSection() {
   return (
     <HeroWrapper>
       <HeroContainer>
