@@ -61,18 +61,13 @@ export default function Footer() {
               <InfoItem>info@seogyeong.com</InfoItem>
               <InfoItem>+82 31 123 4567</InfoItem>
               <InfoItem>
-                경기도 남양주시 오남읍<br />
-                양지리 549번지<br />
-                대한민국
+                경기도 남양주시 오남읍 <br />
+                양지리 549번지
               </InfoItem>
             </AddressInfo>
           </LinkColumn>
         </LinksSection>
       </FooterContent>
-
-      <FooterBrand>
-        <BrandName>Seogyeong</BrandName>
-      </FooterBrand>
 
       <Copyright>
         <p>© {new Date().getFullYear()} 서경산업. All rights reserved.</p>
@@ -84,7 +79,7 @@ export default function Footer() {
 const FooterWrapper = styled.footer`
   background: #f8f8f8;
   border-top: 1px solid #e5e5e5;
-  margin-top: 100px;
+  padding-top: 100px;
 `
 
 const FooterContent = styled.div`
@@ -166,26 +161,6 @@ const InfoItem = styled.p`
   color: #666;
   margin: 0 0 12px 0;
   line-height: 1.6;
-`
-
-const FooterBrand = styled.div`
-  text-align: center;
-  padding: 60px 20px 20px;
-  border-top: 1px solid #e5e5e5;
-  max-width: 1200px;
-  margin: 0 auto;
-`
-
-const BrandName = styled.h2`
-  font-size: 120px;
-  font-weight: 700;
-  color: #000;
-  margin: 0;
-  letter-spacing: -0.02em;
-
-  @media (max-width: 768px) {
-    font-size: 60px;
-  }
 `
 
 const Copyright = styled.div`

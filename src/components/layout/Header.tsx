@@ -113,10 +113,6 @@ export default function Header() {
   )
 }
 
-// ============================================
-// Styled Components (선언 순서 중요!)
-// ============================================
-
 const HeaderWrapper = styled.header`
   width: 100%;
   background: white;
