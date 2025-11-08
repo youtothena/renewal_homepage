@@ -3,7 +3,6 @@ const nextConfig = {
     emotion: true,
   },
 
-  // 이미지 최적화
   images: {
     unoptimized: false,
     remotePatterns: [
