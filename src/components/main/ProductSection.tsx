@@ -166,7 +166,7 @@ const ProductImage = styled.img`
   object-fit: cover;
   transition: transform 0.4s;
 
-  ${ProductCard}:hover & {
+  &:hover {
     transform: scale(1.1);
   }
 `
