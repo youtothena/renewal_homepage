@@ -31,7 +31,9 @@ jobs:
       
       - name: Build Project Artifacts
         run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
-      
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          
       - name: Deploy to Vercel
         id: deploy
         run: |
