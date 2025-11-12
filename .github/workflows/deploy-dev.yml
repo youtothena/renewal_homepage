@@ -1,9 +1,5 @@
 name: Deploy to Vercel (Dev)
 
-env:
-  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-
 on:
   push:
     branches:
@@ -31,12 +27,28 @@ jobs:
       
       - name: Pull Vercel Environment Information
         run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+      
+      - name: Load environment variables from Vercel
+        run: |
+          if [ -f .vercel/.env.preview ]; then
+            set -a
+            source .vercel/.env.preview
+            set +a
+            echo "✅ Environment variables loaded from .vercel/.env.preview"
+          else
+            echo "⚠️ Warning: .vercel/.env.preview not found"
+          fi
       
       - name: Build Project Artifacts
         run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
         env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          
+      
       - name: Deploy to Vercel
         id: deploy
         run: |
