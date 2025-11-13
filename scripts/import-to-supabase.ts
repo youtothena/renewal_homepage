@@ -113,7 +113,7 @@ async function importData() {
     let galleryCount = 0
     for (const gallery of data.galleries || []) {
       try {
-        const images = []
+        const images: string[] = []
         if (gallery.file1) images.push(gallery.file1)
         if (gallery.file2) images.push(gallery.file2)
         if (gallery.file3) images.push(gallery.file3)
