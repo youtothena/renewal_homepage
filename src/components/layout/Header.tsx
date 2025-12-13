@@ -5,7 +5,11 @@ import Link from 'next/link'
 import { useState } from 'react'
 import { theme } from '@/styles/theme'
 
-export default function Header() {
+interface HeaderProps {
+  isVisible?: boolean
+}
+
+export default function Header({ isVisible }: HeaderProps) {
   const [activeMenu, setActiveMenu] = useState<string | null>(null)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
@@ -19,7 +23,7 @@ export default function Header() {
   }
 
   return (
-    <HeaderWrapper>
+    <HeaderWrapper $isVisible={isVisible}>
       <HeaderContainer>
         {/* 왼쪽 로고 */}
         <LogoSection>
@@ -113,13 +117,17 @@ export default function Header() {
   )
 }
 
-const HeaderWrapper = styled.header`
+const HeaderWrapper = styled.header<{ $isVisible: boolean }>`
   width: 100%;
   background: white;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   position: sticky;
   top: 0;
-  z-index: 1000;
+  z-index: 100;
+  opacity: ${props => props.$isVisible ? 1 : 0};
+  transform: translateY(${props => props.$isVisible ? '0' : '-100%'});
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: ${props => props.$isVisible ? 'auto' : 'none'};
 `
 
 const HeaderContainer = styled.div`
