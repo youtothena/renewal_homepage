@@ -16,57 +16,52 @@ export default function Footer() {
             </Logo>
           </LogoSection>
           <CompanyDescription>
-            서경산업은 논슬립, 굽도리, 마감재 전문 제조 및 시공 회사로서
+            서경산업은 논슬립, 굽도리, 마감재 전문 제조 및 <br/> 시공 회사로서
             고품질의 맞춤형 건축 자재 솔루션을 제공합니다.
           </CompanyDescription>
         </BrandSection>
 
         <LinksSection>
           <LinkColumn>
-            <ColumnTitle>Pages</ColumnTitle>
+            <ColumnTitle>주요 페이지</ColumnTitle>
             <LinkList>
               <LinkItem>
-                <Link href="/">Home</Link>
+                <Link href="/">회사소개</Link>
               </LinkItem>
               <LinkItem>
-                <Link href="/about">About Us</Link>
+                <Link href="/about">제품소개</Link>
               </LinkItem>
               <LinkItem>
-                <Link href="/products">제품소개</Link>
-              </LinkItem>
-              <LinkItem>
-                <Link href="/gallery">시공갤러리</Link>
-              </LinkItem>
-              <LinkItem>
-                <Link href="/inquiry">Contact</Link>
+                <Link href="/products">시공갤러리</Link>
               </LinkItem>
             </LinkList>
           </LinkColumn>
 
           <LinkColumn>
-            <ColumnTitle>Legally</ColumnTitle>
+            <ColumnTitle>회사 정보</ColumnTitle>
             <LinkList>
               <LinkItem>
-                <Link href="/legal/imprint">Imprint</Link>
+                <Link href="/legal/imprint">상호: 서경산업</Link>
               </LinkItem>
               <LinkItem>
-                <Link href="/legal/privacy">Privacy Policy</Link>
+                <Link href="/legal/privacy">대표: 이남영</Link>
               </LinkItem>
               <LinkItem>
-                <Link href="/legal/cookies">Cookies Settings</Link>
+                <Link href="/legal/cookies">사업자번호: 132-21-24492</Link>
+              </LinkItem>
+              <LinkItem>
+                <Link href="/legal/cookies">주소: 경기도 남양주시 오남읍 양지로 81번길</Link>
               </LinkItem>
             </LinkList>
           </LinkColumn>
 
           <LinkColumn>
-            <ColumnTitle>Address</ColumnTitle>
+            <ColumnTitle>연락처</ColumnTitle>
             <AddressInfo>
-              <InfoItem>info@seogyeong.com</InfoItem>
-              <InfoItem>+82 31 123 4567</InfoItem>
-              <InfoItem>
-                경기도 남양주시 오남읍 <br />
-                양지리 549번지
-              </InfoItem>
+              <InfoItem>대표번호: 031-571-6890 / 02-426-7890</InfoItem>
+              <InfoItem>팩스: 031-574-6890</InfoItem>
+              <InfoItem>H.P: 010-2019-0409</InfoItem>
+              <InfoItem>이메일: skkr6890@naver.com</InfoItem>
             </AddressInfo>
           </LinkColumn>
         </LinksSection>
@@ -82,7 +77,6 @@ export default function Footer() {
 const FooterWrapper = styled.footer`
   background: #f8f8f8;
   border-top: 1px solid #e5e5e5;
-  padding-top: 100px;
 `
 
 const FooterContent = styled.div`
@@ -139,15 +133,15 @@ const LogoText = styled.h1`
 
 const CompanyDescription = styled.p`
   font-size: 14px;
+  padding-top: 20px;
   line-height: 1.6;
   color: #666;
   margin: 0;
 `
 
 const LinksSection = styled.div`
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 40px;
+  display: flex;
+  justify-content: space-between;
 
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
@@ -171,7 +165,7 @@ const LinkList = styled.ul`
 `
 
 const LinkItem = styled.li`
-  margin-bottom: 12px;
+  margin-bottom: 8px;
 
   a {
     color: #666;

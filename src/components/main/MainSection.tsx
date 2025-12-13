@@ -153,10 +153,6 @@ export default function MainSection({ onAnimationComplete }: MainSectionProps) {
             </StatItem>
           </StatsGrid>
         </ContentSection>
-
-        <ImageSection $phase={animationPhase}>
-          <ProductImage src="/images/test/main_bg.png" alt="서경산업 제품" />
-        </ImageSection>
       </HeroContainer>
     </HeroWrapper>
   )
@@ -175,7 +171,12 @@ const charAppear = keyframes`
 // 스타일 정의
 const HeroWrapper = styled.section<{ $phase: string }>`
   width: 100%;
-  background: linear-gradient(135deg, #f5f7fa 0%, #eef2f5 100%); // 배경색 조정
+  min-height: 90vh;
+  background-image: url('/images/test/main_bg.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
   // center일 때는 0, complete일 때는 상단 패딩 10px (Header와의 간격 최소화)
   padding: ${props => props.$phase === 'center' ? '0' : '10px 0'}; 
   padding-top: ${props => props.$phase === 'center' ? '80px' : '0px'};
@@ -199,14 +200,11 @@ const HeroWrapper = styled.section<{ $phase: string }>`
 `
 
 const HeroContainer = styled.div<{ $phase: string }>`
-  max-width: 1400px;
   width: 100%;
   margin: 0 auto;
-  padding: 0 40px;
-  display: grid;
+  padding: 0 60px;
+  padding-top: 100px;
   // center일 때는 1컬럼, 그 외에는 2컬럼
-  grid-template-columns: ${props => props.$phase === 'center' ? '1fr' : '1.2fr 1fr'};
-  gap: ${props => props.$phase === 'center' ? '0' : '80px'};
   align-items: center;
   position: relative;
   z-index: 1;
@@ -235,7 +233,7 @@ const MainTitle = styled.h1<{ $phase: string }>`
   color: ${theme.colors.text.primary};
   line-height: 1.2;
   margin: 0;
-  letter-spacing: -0.02em;
+  letter-spacing: 0.15rem;
   transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
   white-space: nowrap;
 
@@ -259,7 +257,6 @@ const SubTitleWrapper = styled.div<{ $phase: string }>`
 
 const TitleLine = styled.div`
   display: block;
-  margin-bottom: 8px;
 `
 
 const CharSpan = styled.span<{ $show: boolean }>`
@@ -283,8 +280,8 @@ const CharSpan = styled.span<{ $show: boolean }>`
 
 const SubTitle = styled.p`
   font-size: 18px;
-  color: #666;
-  font-weight: 500;
+  color: #888;
+  font-weight: 600;
   margin: 0;
 `
 
@@ -323,13 +320,12 @@ const StatsGrid = styled.div<{ $phase: string }>`
 const StatItem = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 8px;
 `
 
 const StatNumber = styled.div`
   font-size: 38px;
   font-weight: 800;
-  color: ${theme.colors.primary};
+  color: ${theme.colors.text.primary};
   line-height: 1.2;
   font-feature-settings: "tnum"; // 숫자 너비 고정
   font-variant-numeric: tabular-nums;
@@ -337,9 +333,9 @@ const StatNumber = styled.div`
 
 const StatLabel = styled.div`
   font-size: 14px;
-  color: ${theme.colors.text.secondary};
-  font-weight: 600;
+  color: ${theme.colors.text.primary};
   letter-spacing: -0.01em;
+  margin-left: 5px;
 `
 
 const ImageSection = styled.div<{ $phase: string }>`
