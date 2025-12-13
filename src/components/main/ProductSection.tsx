@@ -69,7 +69,7 @@ export default function ProductSection() {
 
 const ProductWrapper = styled.section`
   width: 100%;
-  padding: 100px 0;
+  padding: 60px 0;
   background: white;
 `
 
@@ -77,19 +77,18 @@ const ProductContainer = styled.div`
   max-width: 1400px;
   margin: 0 auto;
   padding: 0 40px;
-  position: relative;
 `
 
 const SectionHeader = styled.div`
   text-align: center;
-  margin-bottom: 60px;
+  margin-bottom: 40px;
 `
 
 const SectionTitle = styled.h2`
   font-size: 42px;
   font-weight: 800;
   color: ${theme.colors.text.primary};
-  margin: 0 0 16px 0;
+  margin: 0 0 10px 0;
 `
 
 const SectionSubtitle = styled.p`
@@ -99,9 +98,6 @@ const SectionSubtitle = styled.p`
 `
 
 const ViewAllButton = styled(Link)`
-  position: absolute;
-  top: 20px;
-  right: 40px;
   padding: 10px 24px;
   background: ${theme.colors.primary};
   color: white;
@@ -110,6 +106,9 @@ const ViewAllButton = styled(Link)`
   font-weight: 600;
   font-size: 14px;
   transition: all 0.3s;
+  display: block;
+  width: fit-content;
+  margin: 0 auto;
 
   &:hover {
     background: #2d5a8f;
@@ -127,6 +126,7 @@ const ProductGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 40px;
+  margin-top: 40px;
 
   @media (max-width: 1024px) {
     grid-template-columns: repeat(2, 1fr);

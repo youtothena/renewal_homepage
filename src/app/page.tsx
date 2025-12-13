@@ -23,7 +23,8 @@ export default function HomePage() {
       <Header isVisible={animationComplete} />
       <MainSection onAnimationComplete={() => setAnimationComplete(true)} />
       <ProductSection />
-      <CaseSection />
+      {/*From the news 제거*/}
+      {/* <CaseSection /> */}
       <Footer />
     </>
   )

@@ -66,7 +66,7 @@ export default function MainSection({ onAnimationComplete }: MainSectionProps) {
 
     // 애니메이션 시작
     let totalDelay = 0
-    const charDelay = 60 // 글자당 딜레이 (ms)
+    const charDelay = 50 // 글자당 딜레이 (ms)
 
     textLines.forEach((line, lineIndex) => {
       line.split('').forEach((_, charIndex) => {
@@ -80,11 +80,9 @@ export default function MainSection({ onAnimationComplete }: MainSectionProps) {
         }, totalDelay)
         totalDelay += charDelay
       })
-      // 줄바꿈 시 약간의 딜레이 추가
-      totalDelay += 200 
+      totalDelay += 300 
     })
 
-    // 모든 글자가 나타난 후 대기하다가 이동
     const moveTimer = setTimeout(() => {
       setAnimationPhase('moveLeft')
     }, totalDelay + 800)
@@ -95,7 +93,7 @@ export default function MainSection({ onAnimationComplete }: MainSectionProps) {
       setShouldAnimateCount(true)
       onAnimationComplete?.()
       sessionStorage.setItem('intro_shown', 'true')
-    }, totalDelay + 800 + 1000) // 이동 시간 1초 포함
+    }, totalDelay + 800 + 1200)
 
     return () => {
       clearTimeout(moveTimer)
@@ -122,9 +120,11 @@ export default function MainSection({ onAnimationComplete }: MainSectionProps) {
             ))}
           </MainTitle>
 
-          <SubTitle $phase={animationPhase}>
-            모든 발걸음에 안정을, 모든 공간에 믿음을 더하는 서경산업
-          </SubTitle>
+          <SubTitleWrapper $phase={animationPhase}>
+            <SubTitle>
+              모든 발걸음에 안정을, 모든 공간에 믿음을 더하는 서경산업
+            </SubTitle>
+          </SubTitleWrapper>
 
           <StatsGrid $phase={animationPhase}>
             <StatItem>
@@ -175,25 +175,24 @@ const charAppear = keyframes`
 // 스타일 정의
 const HeroWrapper = styled.section<{ $phase: string }>`
   width: 100%;
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-  // phase가 center일 때는 전체 화면을 꽉 채우도록
-  min-height: 100vh;
-  padding: ${props => props.$phase === 'center' ? '0' : '140px 0 100px'};
+  background: linear-gradient(135deg, #f5f7fa 0%, #eef2f5 100%); // 배경색 조정
+  // center일 때는 0, complete일 때는 상단 패딩 10px (Header와의 간격 최소화)
+  padding: ${props => props.$phase === 'center' ? '0' : '10px 0'}; 
+  padding-top: ${props => props.$phase === 'center' ? '80px' : '0px'};
   position: relative;
   overflow: hidden;
   display: flex;
   flex-direction: column;
   justify-content: ${props => props.$phase === 'center' ? 'center' : 'flex-start'};
-  transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 1.2s cubic-bezier(0.22, 1, 0.36, 1); // 더 부드러운 이징 함수
 
   &::before {
     content: '';
     position: absolute;
     top: 0;
     right: 0;
-    width: 60%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent 0%, rgba(61, 111, 172, 0.03) 100%);
+    width: 65%;
+    background: linear-gradient(90deg, transparent 0%, rgba(61, 111, 172, 0.05) 100%);
     opacity: ${props => props.$phase === 'complete' ? 1 : 0};
     transition: opacity 1s ease;
   }
@@ -250,6 +249,14 @@ const MainTitle = styled.h1<{ $phase: string }>`
   }
 `
 
+const SubTitleWrapper = styled.div<{ $phase: string }>`
+  opacity: ${props => props.$phase === 'complete' ? 1 : 0};
+  transform: translateY(${props => props.$phase === 'complete' ? '0' : '30px'});
+  transition: all 1s cubic-bezier(0.22, 1, 0.36, 1) 0.2s;
+  display: flex;
+  align-items: center;
+`
+
 const TitleLine = styled.div`
   display: block;
   margin-bottom: 8px;
@@ -262,40 +269,53 @@ const CharSpan = styled.span<{ $show: boolean }>`
   animation: ${props => props.$show ? charAppear : 'none'} 0.1s linear forwards;
 `
 
-const SubTitle = styled.p<{ $phase: string }>`
-  font-size: 20px;
-  color: ${theme.colors.text.secondary};
-  line-height: 1.7;
-  margin: 0;
-  opacity: ${props => props.$phase === 'complete' ? 1 : 0};
-  transform: translateY(${props => props.$phase === 'complete' ? '0' : '20px'});
-  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.2s;
+// const SubTitle = styled.p<{ $phase: string }>`
+//   font-size: 20px;
+//   color: ${theme.colors.text.secondary};
+//   line-height: 1.7;
+//   margin: 0;
+//   opacity: ${props => props.$phase === 'complete' ? 1 : 0};
+//   transform: translateY(${props => props.$phase === 'complete' ? '0' : '20px'});
+//   transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.2s;
+//   font-weight: 500;
+//   max-width: 600px;
+// `
+
+const SubTitle = styled.p`
+  font-size: 18px;
+  color: #666;
   font-weight: 500;
-  max-width: 600px;
+  margin: 0;
 `
 
 const StatsGrid = styled.div<{ $phase: string }>`
   display: grid;
-  grid-template-columns: repeat(4, 1fr); // 한 줄로 배치
-  gap: 40px;
-  margin-top: 20px;
+  grid-template-columns: repeat(2, 1fr); // 2열로 변경
+  gap: 40px 150px; // 행 간격 40px, 열 간격 60px
   opacity: ${props => props.$phase === 'complete' ? 1 : 0};
   transform: translateY(${props => props.$phase === 'complete' ? '0' : '20px'});
   transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.4s;
   
-  // 구분선 추가
-  & > div:not(:last-child) {
-    border-right: 1px solid rgba(0,0,0,0.1);
-    padding-right: 20px;
+  & > div:nth-of-type(odd) {
+    position: relative;
+    
+    &::after {
+      content: '';
+      position: absolute;
+      right: -60px;
+      top: 10%;
+      height: 80%;
+      width: 1px;
+      background-color: rgba(0,0,0,0.1);
+    }
   }
 
+  // 모바일에서는 구분선 제거 및 간격 조정
   @media (max-width: 768px) {
-    grid-template-columns: repeat(2, 1fr);
     gap: 30px;
     
-    & > div:not(:last-child) {
-      border-right: none;
-      padding-right: 0;
+    & > div:nth-of-type(odd)::after {
+      display: none;
     }
   }
 `
@@ -307,7 +327,7 @@ const StatItem = styled.div`
 `
 
 const StatNumber = styled.div`
-  font-size: 36px;
+  font-size: 38px;
   font-weight: 800;
   color: ${theme.colors.primary};
   line-height: 1.2;

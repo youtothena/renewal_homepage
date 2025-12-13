@@ -9,9 +9,12 @@ export default function Footer() {
     <FooterWrapper>
       <FooterContent>
         <BrandSection>
-          <Logo>
-            <img src="/images/test/logo.jpg" alt="서경산업" />
-          </Logo>
+          <LogoSection>
+            <Logo href="/">
+              <LogoImage src="/images/test/logo_test.png" alt="서경산업" />
+              <LogoText>서경산업</LogoText>
+            </Logo>
+          </LogoSection>
           <CompanyDescription>
             서경산업은 논슬립, 굽도리, 마감재 전문 제조 및 시공 회사로서
             고품질의 맞춤형 건축 자재 솔루션을 제공합니다.
@@ -98,11 +101,39 @@ const FooterContent = styled.div`
 
 const BrandSection = styled.div``
 
-const Logo = styled.div`
-  margin-bottom: 20px;
-  
-  img {
-    height: 50px;
+const LogoSection = styled.div`
+  flex-shrink: 0;
+  z-index: 1001;
+`
+
+const Logo = styled(Link)`
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+
+  @media (max-width: 768px) {
+    gap: 8px;
+  }
+`
+
+const LogoImage = styled.img`
+  height: 40px;
+  width: auto;
+
+  @media (max-width: 768px) {
+    height: 32px;
+  }
+`
+
+const LogoText = styled.h1`
+  font-size: 24px;
+  font-weight: 700;
+  color: ${theme.colors.text.primary};
+  margin: 0;
+
+  @media (max-width: 768px) {
+    font-size: 20px;
   }
 `
 
