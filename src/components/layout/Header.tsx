@@ -117,7 +117,7 @@ export default function Header({ isVisible }: HeaderProps) {
   )
 }
 
-const HeaderWrapper = styled.header<{ $isVisible: boolean }>`
+const HeaderWrapper = styled.header<{ $isVisible: boolean | undefined }>`
   width: 100%;
   background: white;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
