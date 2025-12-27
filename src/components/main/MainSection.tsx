@@ -54,15 +54,15 @@ export default function MainSection({ onAnimationComplete }: MainSectionProps) {
   
   useEffect(() => {
     // 세션 스토리지 확인 (애니메이션 한 번만 실행)
-    const hasShownIntro = sessionStorage.getItem('intro_shown')
+    // const hasShownIntro = sessionStorage.getItem('intro_shown')
     
-    if (hasShownIntro) {
-      setAnimationPhase('complete')
-      setShowLines(textLines.map(line => new Array(line.length).fill(true)))
-      setShouldAnimateCount(true)
-      onAnimationComplete?.()
-      return
-    }
+    // if (hasShownIntro) {
+    //   setAnimationPhase('complete')
+    //   setShowLines(textLines.map(line => new Array(line.length).fill(true)))
+    //   setShouldAnimateCount(true)
+    //   onAnimationComplete?.()
+    //   return
+    // }
 
     // 애니메이션 시작
     let totalDelay = 0
@@ -167,26 +167,37 @@ const charAppear = keyframes`
     opacity: 1;
   }
 `
-
-// 스타일 정의
 const HeroWrapper = styled.section<{ $phase: string }>`
   width: 100%;
   min-height: 90vh;
-  background-image: url('/images/test/main_bg.png');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-
-  // center일 때는 0, complete일 때는 상단 패딩 10px (Header와의 간격 최소화)
-  padding: ${props => props.$phase === 'center' ? '0' : '10px 0'}; 
-  padding-top: ${props => props.$phase === 'center' ? '80px' : '0px'};
+  // 배경 이미지는 가상 요소로 처리하여 opacity 조절
   position: relative;
+  background-color: ${theme.colors.background.white}; // 초기 배경색 (흰색)
+  padding: 0;
+
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  justify-content: ${props => props.$phase === 'center' ? 'center' : 'flex-start'};
-  transition: all 1.2s cubic-bezier(0.22, 1, 0.36, 1); // 더 부드러운 이징 함수
+  justify-content: center;
 
+  // 배경 이미지 레이어
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('/images/test/main_bg.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: ${props => props.$phase === 'complete' ? 1 : 0}; // complete일 때만 보임
+    transition: opacity 1.5s ease;
+    z-index: 0;
+  }
+
+  // 그라데이션 레이어 (배경 이미지 위에 얹어짐)
   &::before {
     content: '';
     position: absolute;
@@ -196,19 +207,22 @@ const HeroWrapper = styled.section<{ $phase: string }>`
     background: linear-gradient(90deg, transparent 0%, rgba(61, 111, 172, 0.05) 100%);
     opacity: ${props => props.$phase === 'complete' ? 1 : 0};
     transition: opacity 1s ease;
+    z-index: 1;
   }
 `
 
 const HeroContainer = styled.div<{ $phase: string }>`
   width: 100%;
-  margin: 0 auto;
   padding: 0 60px;
-  padding-top: 100px;
-  // center일 때는 1컬럼, 그 외에는 2컬럼
-  align-items: center;
   position: relative;
-  z-index: 1;
+  z-index: 2;
   transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start; 
+
 
   @media (max-width: 1024px) {
     grid-template-columns: 1fr;
@@ -221,10 +235,9 @@ const ContentSection = styled.div<{ $phase: string }>`
   display: flex;
   flex-direction: column;
   gap: 48px;
-  // center일 때는 중앙 정렬
-  text-align: ${props => props.$phase === 'center' ? 'center' : 'left'};
-  align-items: ${props => props.$phase === 'center' ? 'center' : 'flex-start'};
-  transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
+  text-align: left;
+  align-items: flex-start;
+  width: 100%;
 `
 
 const MainTitle = styled.h1<{ $phase: string }>`
@@ -288,7 +301,7 @@ const SubTitle = styled.p`
 const StatsGrid = styled.div<{ $phase: string }>`
   display: grid;
   grid-template-columns: repeat(2, 1fr); // 2열로 변경
-  gap: 40px 150px; // 행 간격 40px, 열 간격 60px
+  gap: 40px 100px;
   opacity: ${props => props.$phase === 'complete' ? 1 : 0};
   transform: translateY(${props => props.$phase === 'complete' ? '0' : '20px'});
   transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.4s;
@@ -299,7 +312,7 @@ const StatsGrid = styled.div<{ $phase: string }>`
     &::after {
       content: '';
       position: absolute;
-      right: -60px;
+      right: -45px;
       top: 10%;
       height: 80%;
       width: 1px;

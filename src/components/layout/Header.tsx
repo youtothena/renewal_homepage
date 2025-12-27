@@ -84,12 +84,6 @@ export default function Header({ isVisible }: HeaderProps) {
 
             <NavItem>
               <NavLink href="#" onClick={closeMobileMenu}>
-                온라인문의
-              </NavLink>
-            </NavItem>
-
-            <NavItem>
-              <NavLink href="#" onClick={closeMobileMenu}>
                 시공갤러리
               </NavLink>
             </NavItem>
@@ -184,7 +178,7 @@ const LogoText = styled.h1`
 const NavSection = styled.nav<{ $isOpen: boolean }>`
   flex: 1;
   display: flex;
-  justify-content: center;
+  justify-content: end;
 
   @media (max-width: 768px) {
     position: fixed;
@@ -208,7 +202,6 @@ const NavList = styled.ul`
   list-style: none;
   margin: 0;
   padding: 0;
-  gap: 8px;
 
   @media (max-width: 768px) {
     flex-direction: column;
@@ -230,8 +223,8 @@ const NavLink = styled(Link)`
   padding: 12px 24px;
   color: ${theme.colors.text.primary};
   text-decoration: none;
-  font-weight: 500;
-  font-size: 15px;
+  font-weight: 600;
+  font-size: 17px;
   transition: all 0.2s;
   border-radius: 4px;
 
