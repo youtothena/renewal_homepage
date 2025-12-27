@@ -4,6 +4,7 @@ import styled from '@emotion/styled'
 import Link from 'next/link'
 import { useState } from 'react'
 import { theme } from '@/styles/theme'
+import { useModalStore } from '@/store/modalStore'
 
 interface HeaderProps {
   isVisible?: boolean
@@ -11,7 +12,8 @@ interface HeaderProps {
 
 export default function Header({ isVisible }: HeaderProps) {
   const [activeMenu, setActiveMenu] = useState<string | null>(null)
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { openModal } = useModalStore();
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen)
@@ -92,7 +94,7 @@ export default function Header({ isVisible }: HeaderProps) {
 
         {/* 오른쪽 문의하기 버튼 + 햄버거 메뉴 */}
         <RightSection>
-          <ContactButton href="#">문의하기</ContactButton>
+          <ContactButton onClick={() => openModal('contact')}>문의하기</ContactButton>
           <HamburgerButton
             onClick={toggleMobileMenu}
             $isOpen={isMobileMenuOpen}
@@ -303,17 +305,19 @@ const RightSection = styled.div`
   z-index: 1001;
 `
 
-const ContactButton = styled(Link)`
+const ContactButton = styled.button`
   display: inline-block;
   padding: 12px 28px;
   background: ${theme.colors.primary};
   color: white;
-  text-decoration: none;
+  border: none;
   border-radius: 6px;
+  cursor: pointer;
   font-weight: 600;
   font-size: 15px;
   transition: all 0.3s;
-
+  font-family: inherit;
+  
   &:hover {
     background: #2d5a8f;
     transform: translateY(-2px);
