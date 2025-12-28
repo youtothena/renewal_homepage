@@ -6,7 +6,6 @@ import { useModalStore } from '@/store/modalStore';
 import { useForm } from 'react-hook-form';
 import axiosInstance from '@/lib/axios';
 import { useEffect, useState } from 'react';
-import { keyframes } from '@emotion/react';
 
 interface ContactFormData {
   company: string;
@@ -47,11 +46,8 @@ export default function ContactModal() {
 
   const onSubmit = async (data: ContactFormData) => {
     try {
-      // 실제 API 연동 시 주석 해제 및 수정
-      // await axiosInstance.post('/inquiry', data);
       await axiosInstance.post('/api/contact', data);
       setIsSuccess(true);
-
       setTimeout(() => {
         closeModal();
       }, 2000);
@@ -64,6 +60,10 @@ export default function ContactModal() {
   return (
     <Overlay onClick={handleOverlayClick}>
       <ModalContainer>
+      <CloseButton onClick={closeModal} aria-label="닫기">
+          ✕
+        </CloseButton>
+
         {isSuccess ? (
           <SuccessContent>
             <CheckIcon>✓</CheckIcon>
@@ -152,45 +152,90 @@ const ModalContainer = styled.div`
   background: white;
   width: 100%;
   max-width: 800px;
-  min-height: 620px;
   border-radius: 20px;
-  padding: 35px 50px;
+  padding: 40px 50px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  position: relative; /* 닫기 버튼 위치 기준 */
+  max-height: 90vh; /* 화면 높이를 넘지 않도록 설정 */
+  overflow-y: auto; /* 내용이 넘치면 스크롤 */
   
   @media (max-width: 768px) {
     padding: 30px 20px;
+    max-width: 95%; /* 모바일에서 너비 꽉 차게 */
+    border-radius: 16px;
+  }
+`;
+
+const CloseButton = styled.button`
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: #999;
+  cursor: pointer;
+  padding: 5px;
+  line-height: 1;
+  transition: color 0.2s;
+
+  &:hover {
+    color: #333;
+  }
+
+  @media (max-width: 768px) {
+    top: 15px;
+    right: 15px;
+    font-size: 20px;
   }
 `;
 
 const Header = styled.div`
   text-align: center;
-  margin-bottom: 40px;
+  margin-bottom: 30px; /* 여백 축소 */
+
+  @media (max-width: 768px) {
+    margin-bottom: 20px;
+  }
 `;
 
 const Title = styled.h2`
   font-size: 32px;
   font-weight: 800;
   color: ${theme.colors.text.primary};
+  margin: 0 0 10px 0;
+
+  @media (max-width: 768px) {
+    font-size: 24px;
+  }
 `;
+
 
 const Description = styled.p`
   font-size: 16px;
   color: ${theme.colors.text.secondary};
   margin: 0;
+  word-break: keep-all; /* 단어 단위 줄바꿈 */
+
+  @media (max-width: 768px) {
+    font-size: 14px;
+    line-height: 1.4;
+  }
 `;
 
 const Form = styled.form`
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 16px; /* 간격 축소 */
 `;
 
 const Row = styled.div`
   display: flex;
-  gap: 20px;
+  gap: 16px; /* 간격 축소 */
 
   @media (max-width: 768px) {
     flex-direction: column;
+    gap: 12px;
   }
 `;
 
@@ -200,7 +245,7 @@ const InputWrapper = styled.div`
 
 const Input = styled.input<{ $hasError?: boolean }>`
   width: 100%;
-  padding: 18px 20px;
+  padding: 16px; /* 패딩 축소 */
   background-color: #eff2f5;
   border: 1px solid ${props => props.$hasError ? '#ef4444' : 'transparent'};
   border-radius: 8px;
@@ -217,12 +262,17 @@ const Input = styled.input<{ $hasError?: boolean }>`
     box-shadow: 0 0 0 2px ${props => props.$hasError ? '#ef4444' : theme.colors.primary}20;
     background-color: #fff;
   }
+
+  @media (max-width: 768px) {
+    padding: 14px;
+    font-size: 14px;
+  }
 `;
 
 const TextArea = styled.textarea<{ $hasError?: boolean }>`
   width: 100%;
-  height: 200px;
-  padding: 18px 20px;
+  height: 150px; /* 높이 축소 */
+  padding: 16px;
   background-color: #eff2f5;
   border: 1px solid ${props => props.$hasError ? '#ef4444' : 'transparent'};
   border-radius: 8px;
@@ -240,6 +290,12 @@ const TextArea = styled.textarea<{ $hasError?: boolean }>`
   &:focus {
     box-shadow: 0 0 0 2px ${props => props.$hasError ? '#ef4444' : theme.colors.primary}20;
     background-color: #fff;
+  }
+
+  @media (max-width: 768px) {
+    height: 120px; /* 모바일에서 더 축소 */
+    padding: 14px;
+    font-size: 14px;
   }
 `;
 
@@ -290,13 +346,14 @@ const SuccessDesc = styled.p`
 const SubmitButton = styled.button`
   background-color: #3b82f6;
   color: white;
-  padding: 14px 40px;
+  padding: 16px; /* 버튼 높이 확보 */
   border: none;
   border-radius: 8px;
   font-size: 16px;
   font-weight: 700;
   cursor: pointer;
   transition: background 0.3s;
+  margin-top: 10px;
 
   &:hover {
     background-color: #2563eb;
@@ -305,5 +362,10 @@ const SubmitButton = styled.button`
   &:disabled {
     background-color: #9ca3af;
     cursor: not-allowed;
+  }
+  
+  @media (max-width: 768px) {
+    padding: 14px;
+    font-size: 15px;
   }
 `;
