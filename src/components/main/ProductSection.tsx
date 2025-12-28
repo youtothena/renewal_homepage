@@ -18,21 +18,21 @@ const products: Product[] = [
     name: '논슬립',
     description: '안전을 위한 필수 설비',
     image: '/images/test/main_product_01.png',
-    link: '#',
+    link: '/products/nonslip',
   },
   {
     id: '2',
     name: '마감재',
     description: '건축의 완성도를 높이는 디테일',
     image: '/images/test/main_product_02.png',
-    link: '#',
+    link: '/products/baseboard',
   },
   {
     id: '3',
     name: '굽도리',
     description: '고급스러운 벽과 바닥의 경계',
     image: '/images/test/main_product_03.png',
-    link: '#',
+    link: '/products/kickplate',
   },
 ]
 
@@ -47,7 +47,7 @@ export default function ProductSection() {
           </SectionSubtitle>
         </SectionHeader>
 
-        <ViewAllButton href="/#">바로가기</ViewAllButton>
+        <ViewAllButton href="/products">바로가기</ViewAllButton>
 
         <ProductGrid>
           {products.map((product) => (

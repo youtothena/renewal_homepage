@@ -68,19 +68,24 @@ export default function Header() {
               onMouseEnter={() => setActiveMenu('products')}
               onMouseLeave={() => setActiveMenu(null)}
             >
-              <NavLink href="#" onClick={closeMobileMenu}>
+              <NavLink href="/products" onClick={closeMobileMenu}>
                 제품소개
               </NavLink>
               {activeMenu === 'products' && (
                 <SubMenu>
                   <SubMenuItem>
-                    <NavLink href="#" onClick={closeMobileMenu}>
+                    <NavLink href="/products/nonslip" onClick={closeMobileMenu}>
                       논슬립
                     </NavLink>
                   </SubMenuItem>
                   <SubMenuItem>
-                    <NavLink href="#" onClick={closeMobileMenu}>
+                    <NavLink href="/products/baseboard" onClick={closeMobileMenu}>
                       마감재
+                    </NavLink>
+                  </SubMenuItem>
+                  <SubMenuItem>
+                    <NavLink href="/products/kickplate" onClick={closeMobileMenu}>
+                      굽도리
                     </NavLink>
                   </SubMenuItem>
                 </SubMenu>
