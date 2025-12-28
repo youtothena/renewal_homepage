@@ -4,6 +4,7 @@ import styled from '@emotion/styled'
 import { theme } from '@/styles/theme'
 import { useState, useEffect, useRef } from 'react'
 import { keyframes } from '@emotion/react'
+import { useUIStore } from '@/store/uiStore'
 
 interface MainSectionProps {
   onAnimationComplete?: () => void
@@ -49,7 +50,8 @@ export default function MainSection({ onAnimationComplete }: MainSectionProps) {
   const [showLines, setShowLines] = useState<boolean[][]>([[], []])
   const [animationPhase, setAnimationPhase] = useState<'center' | 'moveLeft' | 'complete'>('center')
   const [shouldAnimateCount, setShouldAnimateCount] = useState(false)
-  
+  const setIntroDone = useUIStore(state => state.setIntroDone)
+
   const textLines = ['한 걸음의 차이가', '안전을 만든다.']
   
   useEffect(() => {
@@ -92,6 +94,7 @@ export default function MainSection({ onAnimationComplete }: MainSectionProps) {
       setAnimationPhase('complete')
       setShouldAnimateCount(true)
       onAnimationComplete?.()
+      setIntroDone(true)
       sessionStorage.setItem('intro_shown', 'true')
     }, totalDelay + 800 + 1200)
 
@@ -99,7 +102,7 @@ export default function MainSection({ onAnimationComplete }: MainSectionProps) {
       clearTimeout(moveTimer)
       clearTimeout(completeTimer)
     }
-  }, [])
+  }, [setIntroDone, onAnimationComplete])
 
   return (
     <HeroWrapper $phase={animationPhase}>

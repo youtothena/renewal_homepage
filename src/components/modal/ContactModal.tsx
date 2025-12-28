@@ -5,7 +5,8 @@ import { theme } from '@/styles/theme';
 import { useModalStore } from '@/store/modalStore';
 import { useForm } from 'react-hook-form';
 import axiosInstance from '@/lib/axios';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { keyframes } from '@emotion/react';
 
 interface ContactFormData {
   company: string;
@@ -16,11 +17,23 @@ interface ContactFormData {
 
 export default function ContactModal() {
   const { isOpen, modalType, closeModal } = useModalStore();
-  const { register, handleSubmit, reset, formState: { isSubmitting } } = useForm<ContactFormData>();
+  const [isSuccess, setIsSuccess] = useState(false);
+
+  const { 
+    register, 
+    handleSubmit, 
+    reset, 
+    formState: { isSubmitting, isValid, errors } 
+  } = useForm<ContactFormData>({
+    mode: 'onChange',
+  });
 
   // 모달이 열릴 때마다 폼 초기화
   useEffect(() => {
-    if (isOpen) reset();
+    if (isOpen) {
+      reset();
+      setIsSuccess(false);
+    }
   }, [isOpen, reset]);
 
   // 모달 닫기 핸들러 (배경 클릭 시)
@@ -36,58 +49,85 @@ export default function ContactModal() {
     try {
       // 실제 API 연동 시 주석 해제 및 수정
       // await axiosInstance.post('/inquiry', data);
-      
-      console.log('문의 데이터:', data);
-      alert('문의가 성공적으로 접수되었습니다.');
-      closeModal();
+      await axiosInstance.post('/api/contact', data);
+      setIsSuccess(true);
+
+      setTimeout(() => {
+        closeModal();
+      }, 2000);
     } catch (error) {
       console.error(error);
-      alert('문의 접수 중 오류가 발생했습니다.');
+      alert('잠시 후 다시 시도해주세요.'); 
     }
   };
 
   return (
     <Overlay onClick={handleOverlayClick}>
       <ModalContainer>
-        <Header>
-          <Title>문의하기</Title>
-          <Description>언제 어디서든지 쉽고 간편하게 서경산업으로 문의해주세요.</Description>
-        </Header>
+        {isSuccess ? (
+          <SuccessContent>
+            <CheckIcon>✓</CheckIcon>
+            <SuccessTitle>문의가 접수되었습니다!</SuccessTitle>
+            <SuccessDesc>담당자가 확인 후 빠르게 연락드리겠습니다.</SuccessDesc>
+          </SuccessContent>
+        ) : (
+          <>
+            <Header>
+              <Title>문의하기</Title>
+              <Description>언제 어디서든지 쉽고 간편하게 서경산업으로 문의해주세요.</Description>
+            </Header>
 
-        <Form onSubmit={handleSubmit(onSubmit)}>
-          <Row>
-            <InputWrapper>
-              <Input 
-                placeholder="회사명을 입력해주세요." 
-                {...register('company', { required: true })}
-              />
-            </InputWrapper>
-            <InputWrapper>
-              <Input 
-                placeholder="성함을 입력해주세요." 
-                {...register('name', { required: true })}
-              />
-            </InputWrapper>
-          </Row>
-          
-          <InputWrapper>
-            <Input 
-              placeholder="연락처를 입력해주세요." 
-              {...register('contact', { required: true })}
-            />
-          </InputWrapper>
+            <Form onSubmit={handleSubmit(onSubmit)}>
+              <Row>
+                <InputWrapper>
+                  <Input 
+                    placeholder="회사명을 입력해주세요." 
+                    $hasError={!!errors.company}
+                    {...register('company', { required: '회사명을 입력해주세요.' })}
+                  />
+                  {errors.company && <ErrorMessage>{errors.company.message}</ErrorMessage>}
+                </InputWrapper>
+                <InputWrapper>
+                  <Input 
+                    placeholder="성함을 입력해주세요." 
+                    $hasError={!!errors.name}
+                    {...register('name', { required: '성함을 입력해주세요.' })}
+                  />
+                  {errors.name && <ErrorMessage>{errors.name.message}</ErrorMessage>}
+                </InputWrapper>
+              </Row>
+              
+              <InputWrapper>
+                <Input 
+                  placeholder="연락처를 입력해주세요. (010-0000-0000)" 
+                  $hasError={!!errors.contact}
+                  {...register('contact', { 
+                    required: '연락처를 입력해주세요.',
+                    pattern: {
+                      value: /^[0-9\-\+]{9,15}$/,
+                      message: '올바른 연락처 형식이 아닙니다.'
+                    }
+                  })}
+                />
+                {errors.contact && <ErrorMessage>{errors.contact.message}</ErrorMessage>}
+              </InputWrapper>
 
-          <InputWrapper>
-            <TextArea 
-              placeholder="문의 내용을 입력해주세요." 
-              {...register('content', { required: true })}
-            />
-          </InputWrapper>
+              <InputWrapper>
+                <TextArea 
+                  placeholder="문의 내용을 입력해주세요." 
+                  $hasError={!!errors.content}
+                  {...register('content', { required: '문의 내용을 입력해주세요.' })}
+                />
+                {errors.content && <ErrorMessage>{errors.content.message}</ErrorMessage>}
+              </InputWrapper>
 
-          <SubmitButton type="submit" disabled={isSubmitting}>
-            {isSubmitting ? '전송 중...' : '제출하기'}
-          </SubmitButton>
-        </Form>
+              {/* 2. 모든 필드가 유효하지 않으면 버튼 비활성화 */}
+              <SubmitButton type="submit" disabled={!isValid || isSubmitting}>
+                {isSubmitting ? '전송 중...' : '제출하기'}
+              </SubmitButton>
+            </Form>
+          </>
+        )}
       </ModalContainer>
     </Overlay>
   );
@@ -112,7 +152,7 @@ const ModalContainer = styled.div`
   background: white;
   width: 100%;
   max-width: 800px;
-  height: 620px;
+  min-height: 620px;
   border-radius: 20px;
   padding: 35px 50px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
@@ -158,11 +198,11 @@ const InputWrapper = styled.div`
   flex: 1;
 `;
 
-const Input = styled.input`
+const Input = styled.input<{ $hasError?: boolean }>`
   width: 100%;
   padding: 18px 20px;
   background-color: #eff2f5;
-  border: none;
+  border: 1px solid ${props => props.$hasError ? '#ef4444' : 'transparent'};
   border-radius: 8px;
   font-size: 15px;
   color: ${theme.colors.text.primary};
@@ -174,17 +214,17 @@ const Input = styled.input`
   }
 
   &:focus {
-    box-shadow: 0 0 0 2px ${theme.colors.primary}20;
+    box-shadow: 0 0 0 2px ${props => props.$hasError ? '#ef4444' : theme.colors.primary}20;
     background-color: #fff;
   }
 `;
 
-const TextArea = styled.textarea`
+const TextArea = styled.textarea<{ $hasError?: boolean }>`
   width: 100%;
   height: 200px;
   padding: 18px 20px;
   background-color: #eff2f5;
-  border: none;
+  border: 1px solid ${props => props.$hasError ? '#ef4444' : 'transparent'};
   border-radius: 8px;
   font-size: 15px;
   color: ${theme.colors.text.primary};
@@ -198,9 +238,53 @@ const TextArea = styled.textarea`
   }
 
   &:focus {
-    box-shadow: 0 0 0 2px ${theme.colors.primary}20;
+    box-shadow: 0 0 0 2px ${props => props.$hasError ? '#ef4444' : theme.colors.primary}20;
     background-color: #fff;
   }
+`;
+
+const ErrorMessage = styled.span`
+  display: block;
+  font-size: 12px;
+  color: #ef4444;
+  margin-top: 6px;
+  margin-left: 4px;
+`;
+
+const SuccessContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  text-align: center;
+  padding: 40px 0;
+`;
+
+const CheckIcon = styled.div`
+  width: 80px;
+  height: 80px;
+  background-color: #dcfce7;
+  color: #16a34a;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40px;
+  margin-bottom: 24px;
+`;
+
+const SuccessTitle = styled.h3`
+  font-size: 24px;
+  font-weight: 700;
+  color: #16a34a;
+  margin: 0;
+`;
+
+const SuccessDesc = styled.p`
+  font-size: 16px;
+  color: #666;
+  margin: 0;
 `;
 
 const SubmitButton = styled.button`

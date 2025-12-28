@@ -1,8 +1,6 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import Footer from '@/components/layout/Footer'
-import Header from '@/components/layout/Header'
 import CaseSection from '@/components/main/CaseSection'
 import MainSection from '@/components/main/MainSection'
 import ProductSection from '@/components/main/ProductSection'
@@ -20,12 +18,10 @@ export default function HomePage() {
 
   return (
     <>
-      <Header isVisible={animationComplete} />
       <MainSection onAnimationComplete={() => setAnimationComplete(true)} />
       <ProductSection />
       {/*From the news 제거*/}
       {/* <CaseSection /> */}
-      <Footer />
     </>
   )
 }

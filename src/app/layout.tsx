@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
 import { Providers } from './providers'
 import './globals.css'
+import Header from '@/components/layout/Header'
+import Footer from '@/components/layout/Footer'
 
 export const metadata: Metadata = {
   title: '서경산업 - 논슬립, 굽도리, 마감재 전문',
@@ -16,7 +18,11 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body>
-        <Providers>{children}</Providers>
+        <Providers>
+          <Header />
+          {children}
+          <Footer />
+        </Providers>
       </body>
     </html>
   )

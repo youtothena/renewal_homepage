@@ -1,6 +1,6 @@
 'use client'
 
-import { SessionProvider } from 'next-auth/react'
+// import { SessionProvider } from 'next-auth/react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { useState } from 'react'
 import ContactModal from '@/components/modal/ContactModal'
@@ -21,11 +21,11 @@ export function Providers({ children }: { children: React.ReactNode }) {
   useBodyScrollLock(isOpen)
   
   return (
-    <SessionProvider>
+    // <SessionProvider>
       <QueryClientProvider client={queryClient}>
         {children}
         <ContactModal />
       </QueryClientProvider>
-    </SessionProvider>
+    // </SessionProvider>
   )
 }

@@ -2,16 +2,19 @@
 
 import styled from '@emotion/styled'
 import Link from 'next/link'
-import { useState } from 'react'
+import { useUIStore } from '@/store/uiStore'
+import { usePathname } from 'next/navigation' 
+import { useEffect, useState } from 'react'
 import { theme } from '@/styles/theme'
 import { useModalStore } from '@/store/modalStore'
 
-interface HeaderProps {
-  isVisible?: boolean
-}
-
-export default function Header({ isVisible }: HeaderProps) {
+export default function Header() {
   const [activeMenu, setActiveMenu] = useState<string | null>(null)
+  const pathname = usePathname()
+  const isIntroDone = useUIStore(state => state.isIntroDone)
+  const isMainPage = pathname === '/'
+  const isVisible = !isMainPage || isIntroDone
+
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { openModal } = useModalStore();
 
@@ -48,7 +51,7 @@ export default function Header({ isVisible }: HeaderProps) {
               {activeMenu === 'company' && (
                 <SubMenu>
                   <SubMenuItem>
-                    <NavLink href="#" onClick={closeMobileMenu}>
+                    <NavLink  href="/company/intro" onClick={closeMobileMenu}>
                       인사말
                     </NavLink>
                   </SubMenuItem>
