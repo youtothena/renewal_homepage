@@ -8,7 +8,7 @@ function MyMap() {
     const navermaps = useNavermaps()
     
     // 서경산업 좌표
-    const location = new navermaps.LatLng(37.685290, 127.203748)
+    const location = new navermaps.LatLng(37.68563342674427, 127.20433672155164)
   
     return (
       <NaverMap
