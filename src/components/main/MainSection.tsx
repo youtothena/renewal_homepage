@@ -211,6 +211,11 @@ const HeroWrapper = styled.section<{ $phase: string }>`
     opacity: ${props => props.$phase === 'complete' ? 1 : 0};
     transition: opacity 1s ease;
     z-index: 1;
+
+    @media (max-width: 768px) {
+        width: 100%; /* 모바일에서는 전체 그라데이션 적용 */
+        background: linear-gradient(180deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.4) 100%);
+    }
   }
 `
 
@@ -227,10 +232,11 @@ const HeroContainer = styled.div<{ $phase: string }>`
   align-items: flex-start; 
 
 
-  @media (max-width: 1024px) {
-    grid-template-columns: 1fr;
-    gap: 60px;
-    padding-top: ${props => props.$phase === 'center' ? '0' : '40px'};
+  @media (max-width: 768px) {
+    padding: 0 24px; /* 패딩 축소 */
+    /* 모바일 중앙 정렬 애니메이션 로직 */
+    align-items: ${props => props.$phase === 'center' ? 'center' : 'flex-start'};
+    text-align: ${props => props.$phase === 'center' ? 'center' : 'left'};
   }
 `
 
@@ -241,6 +247,13 @@ const ContentSection = styled.div<{ $phase: string }>`
   text-align: left;
   align-items: flex-start;
   width: 100%;
+
+  @media (max-width: 768px) {
+    gap: 32px; /* 간격 축소 */
+    /* 모바일에서는 페이즈에 따라 정렬 변경 */
+    align-items: ${props => props.$phase === 'center' ? 'center' : 'flex-start'};
+    text-align: ${props => props.$phase === 'center' ? 'center' : 'left'};
+  }
 `
 
 const MainTitle = styled.h1<{ $phase: string }>`
@@ -258,8 +271,12 @@ const MainTitle = styled.h1<{ $phase: string }>`
   }
 
   @media (max-width: 768px) {
-    font-size: ${props => props.$phase === 'center' ? '42px' : '36px'};
+    /* 모바일 폰트 사이즈 대폭 축소 및 white-space normal */
+    font-size: ${props => props.$phase === 'center' ? '36px' : '32px'};
     white-space: normal;
+    word-break: keep-all;
+    width: 100%;
+    line-height: 1.4;
   }
 `
 
@@ -299,6 +316,12 @@ const SubTitle = styled.p`
   color: #888;
   font-weight: 600;
   margin: 0;
+  
+  @media (max-width: 768px) {
+    font-size: 15px; /* 폰트 축소 */
+    line-height: 1.5;
+    word-break: keep-all;
+  }
 `
 
 const StatsGrid = styled.div<{ $phase: string }>`
@@ -323,12 +346,13 @@ const StatsGrid = styled.div<{ $phase: string }>`
     }
   }
 
-  // 모바일에서는 구분선 제거 및 간격 조정
   @media (max-width: 768px) {
-    gap: 30px;
+    width: 100%;
+    grid-template-columns: repeat(2, 1fr); /* 모바일에서도 2열 유지하되 */
+    gap: 20px; /* 간격 대폭 축소 */
     
     & > div:nth-of-type(odd)::after {
-      display: none;
+      display: none; /* 구분선 제거 */
     }
   }
 `
