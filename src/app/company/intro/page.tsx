@@ -64,6 +64,7 @@ const BuildingImage = styled.img`
   width: 100%;
   height: auto;
   max-height: 500px;
+  border-radius: 10px;
   object-fit: cover;
 `
 

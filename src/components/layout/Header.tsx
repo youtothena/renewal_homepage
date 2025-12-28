@@ -56,7 +56,7 @@ export default function Header() {
                     </NavLink>
                   </SubMenuItem>
                   <SubMenuItem>
-                    <NavLink href="#" onClick={closeMobileMenu}>
+                    <NavLink href="/company/location" onClick={closeMobileMenu}>
                       찾아오시는길
                     </NavLink>
                   </SubMenuItem>

@@ -33,6 +33,7 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-hook-form": "^7.52.1",
+    "react-naver-maps": "^0.1.4",
     "sharp": "^0.33.4",
     "swiper": "^11.1.4",
     "vercel": "^25.2.0",
@@ -42,6 +43,7 @@
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.14",
     "@types/bcrypt": "^5.0.2",
+    "@types/navermaps": "^3.9.1",
     "@types/node": "^20.14.10",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
