@@ -50,7 +50,7 @@ export default function Footer() {
                 <Link href="/legal/cookies">사업자번호: 132-21-24492</Link>
               </LinkItem>
               <LinkItem>
-                <Link href="/legal/cookies">주소: 경기도 남양주시 오남읍 양지로 81번길</Link>
+                <Link href="/legal/cookies">주소: 경기도 남양주시 오남읍 양지로 81번길 19</Link>
               </LinkItem>
             </LinkList>
           </LinkColumn>

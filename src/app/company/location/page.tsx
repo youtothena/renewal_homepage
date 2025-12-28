@@ -64,7 +64,7 @@ export default function LocationPage() {
                 <IconWrapper>📍</IconWrapper>
                 <ContactContent>
                   <Label>주소 (도로명)</Label>
-                  <Text>경기도 남양주시 오남읍 양지로 81번길 42</Text>
+                  <Text>경기도 남양주시 오남읍 양지로 81번길 19</Text>
                   <SubText>(지번: 경기도 남양주시 오남읍 오남리 591-10)</SubText>
                 </ContactContent>
               </ContactItem>
