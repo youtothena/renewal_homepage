@@ -46,7 +46,7 @@ export default function ContactModal() {
 
   const onSubmit = async (data: ContactFormData) => {
     try {
-      await axiosInstance.post('/api/contact', data);
+      await axiosInstance.post('/contact', data);
       setIsSuccess(true);
       setTimeout(() => {
         closeModal();

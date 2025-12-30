@@ -48,6 +48,10 @@ jobs:
           NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
           NEXT_PUBLIC_NAVER_MAP_CLIENT_ID: ${{ secrets.NEXT_PUBLIC_NAVER_MAP_CLIENT_ID }}
+          NEXT_PUBLIC_COOLSMS_API_KEY: ${{ secrets.COOLSMS_API_KEY }}
+          NEXT_PUBLIC_COOLSMS_API_SECRET: ${{ secrets.COOLSMS_API_SECRET }}
+          NEXT_PUBLIC_COOLSMS_SENDER_NUMBER: ${{ secrets.COOLSMS_SENDER_NUMBER }}
+          NEXT_PUBLIC_ADMIN_PHONE_NUMBER: ${{ secrets.ADMIN_PHONE_NUMBER }}
           
       - name: Deploy to Vercel
         id: deploy
