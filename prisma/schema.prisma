@@ -1,5 +1,8 @@
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
+  // native: 현재 개발 환경(Mac 등)용
+  // rhel-openssl-3.0.x: Vercel/AWS Lambda 배포 환경용
+  binaryTargets = ["native", "rhel-openssl-3.0.x"]
 }
 
 datasource db {

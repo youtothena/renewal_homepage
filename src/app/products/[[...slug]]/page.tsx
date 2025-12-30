@@ -112,10 +112,10 @@ export default function ProductPage({ params }: PageProps) {
                                     <SpecLabel>규격 (Size)</SpecLabel>
                                     <SpecValue>{product.specs.size}</SpecValue>
                                 </SpecBox>
-                                <SpecBox>
+                                {product.specs.thickness && <SpecBox>
                                     <SpecLabel>두께 (Thickness)</SpecLabel>
                                     <SpecValue>{product.specs.thickness}</SpecValue>
-                                </SpecBox>
+                                </SpecBox>}
                             </SpecGrid>
 
                             {/* 제품 특징 */}
