@@ -108,14 +108,24 @@ export default function ProductPage({ params }: PageProps) {
 
                             {/* 규격 정보 박스 */}
                             <SpecGrid>
-                                <SpecBox>
+                              {product.specs.size && <SpecBox>
                                     <SpecLabel>규격 (Size)</SpecLabel>
                                     <SpecValue>{product.specs.size}</SpecValue>
-                                </SpecBox>
-                                {product.specs.thickness && <SpecBox>
-                                    <SpecLabel>두께 (Thickness)</SpecLabel>
-                                    <SpecValue>{product.specs.thickness}</SpecValue>
                                 </SpecBox>}
+                                
+                                {product.specs.thickness && (
+                                    <SpecBox>
+                                        <SpecLabel>두께 (Thickness)</SpecLabel>
+                                        <SpecValue>{product.specs.thickness}</SpecValue>
+                                    </SpecBox>
+                                )}
+
+                                {!product.specs.thickness && product.specs.length && (
+                                    <SpecBox>
+                                        <SpecLabel>길이 (Length)</SpecLabel>
+                                        <SpecValue>{(product.specs as any).length}</SpecValue>
+                                    </SpecBox>
+                                )}
                             </SpecGrid>
 
                             {/* 제품 특징 */}

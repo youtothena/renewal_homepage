@@ -84,7 +84,7 @@ export default function Header() {
                     </NavLink>
                   </SubMenuItem>
                   <SubMenuItem>
-                    <NavLink href="/products/kickplate" onClick={closeMobileMenu}>
+                    <NavLink href="/products/wallBase" onClick={closeMobileMenu}>
                       굽도리
                     </NavLink>
                   </SubMenuItem>
@@ -262,11 +262,22 @@ const SubMenu = styled.ul`
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   list-style: none;
   margin: 0;
+
+
   padding: 8px 0;
   min-width: 180px;
   border-radius: 8px;
   z-index: 100;
-  margin-top: 4px;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -10px; /* 위쪽으로 영역 확장 */
+    left: 0;
+    width: 100%;
+    height: 10px;
+    background: transparent;
+  }
 
   @media (max-width: 768px) {
     position: static;
@@ -275,6 +286,10 @@ const SubMenu = styled.ul`
     padding: 0;
     margin-top: 0;
     background: ${theme.colors.background.gray};
+
+    &::before {
+      display: none;
+    }
   }
 `
 

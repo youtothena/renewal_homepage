@@ -32,7 +32,7 @@ const products: Product[] = [
     name: '굽도리',
     description: '고급스러운 벽과 바닥의 경계',
     image: '/images/test/main_product_03.png',
-    link: '/products/kickplate',
+    link: '/products/wallBase',
   },
 ]
 
