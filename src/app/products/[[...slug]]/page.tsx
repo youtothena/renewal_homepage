@@ -104,7 +104,7 @@ export default function ProductPage({ params }: PageProps) {
 
                         {/* 오른쪽 정보 영역 (높이 유동적) */}
                         <InfoArea>
-                            <InfoTitle>PRODUCT INFO</InfoTitle>
+                            <InfoTitle>{product.name}</InfoTitle>
 
                             {/* 규격 정보 박스 */}
                             <SpecGrid>
