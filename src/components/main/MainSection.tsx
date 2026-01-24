@@ -96,7 +96,7 @@ export default function MainSection({ onAnimationComplete }: MainSectionProps) {
       onAnimationComplete?.()
       setIntroDone(true)
       sessionStorage.setItem('intro_shown', 'true')
-    }, totalDelay + 800 + 1200)
+    }, totalDelay + 1500) // 1.5초 뒤 시작
 
     return () => {
       clearTimeout(moveTimer)
@@ -105,61 +105,127 @@ export default function MainSection({ onAnimationComplete }: MainSectionProps) {
   }, [setIntroDone, onAnimationComplete])
 
   return (
-    <HeroWrapper $phase={animationPhase}>
-      <HeroContainer $phase={animationPhase}>
-        <ContentSection $phase={animationPhase}>
-          <MainTitle $phase={animationPhase}>
-            {textLines.map((line, lineIndex) => (
-              <TitleLine key={lineIndex}>
-                {line.split('').map((char, charIndex) => (
-                  <CharSpan
-                    key={charIndex}
-                    $show={showLines[lineIndex]?.[charIndex] || false}
-                  >
-                    {char === ' ' ? '\u00A0' : char}
-                  </CharSpan>
-                ))}
-              </TitleLine>
-            ))}
-          </MainTitle>
+    <>
+      <MainContentWrapper>
+        <HeroWrapper $phase={animationPhase}>
+        <HeroContainer $phase={animationPhase}>
+          <ContentSection $phase={animationPhase}>
+            <MainTitle $phase={animationPhase}>
+              {textLines.map((line, lineIndex) => (
+                <TitleLine key={lineIndex}>
+                  {line.split('').map((char, charIndex) => (
+                    <CharSpan
+                      key={charIndex}
+                      $show={showLines[lineIndex]?.[charIndex] || false}
+                    >
+                      {char === ' ' ? '\u00A0' : char}
+                    </CharSpan>
+                  ))}
+                </TitleLine>
+              ))}
+            </MainTitle>
 
-          <SubTitleWrapper $phase={animationPhase}>
-            <SubTitle>
-              모든 발걸음에 안정을, 모든 공간에 믿음을 더하는 서경산업
-            </SubTitle>
-          </SubTitleWrapper>
+            <SubTitleWrapper $phase={animationPhase}>
+              <SubTitle>
+                모든 발걸음에 안정을, 모든 공간에 믿음을 더하는 서경산업
+              </SubTitle>
+            </SubTitleWrapper>
 
-          <StatsGrid $phase={animationPhase}>
-            <StatItem>
-              <StatNumber>
-                <AnimatedCounter end={10000} suffix="+" shouldStart={shouldAnimateCount} />
-              </StatNumber>
-              <StatLabel>시공 사례 수</StatLabel>
-            </StatItem>
-            <StatItem>
-              <StatNumber>
-                <AnimatedCounter end={29} suffix="+" shouldStart={shouldAnimateCount} />
-              </StatNumber>
-              <StatLabel>제품 라인업</StatLabel>
-            </StatItem>
-            <StatItem>
-              <StatNumber>
-                <AnimatedCounter end={18} suffix="+" shouldStart={shouldAnimateCount} />
-              </StatNumber>
-              <StatLabel>연혁</StatLabel>
-            </StatItem>
-            <StatItem>
-              <StatNumber>
-                <AnimatedCounter end={98} suffix="%" shouldStart={shouldAnimateCount} />
-              </StatNumber>
-              <StatLabel>고객만족도</StatLabel>
-            </StatItem>
-          </StatsGrid>
-        </ContentSection>
-      </HeroContainer>
-    </HeroWrapper>
+            <StatsGrid $phase={animationPhase}>
+              <StatItem>
+                <StatNumber>
+                  <AnimatedCounter end={10000} suffix="+" shouldStart={shouldAnimateCount} />
+                </StatNumber>
+                <StatLabel>시공 사례 수</StatLabel>
+              </StatItem>
+              <StatItem>
+                <StatNumber>
+                  <AnimatedCounter end={29} suffix="+" shouldStart={shouldAnimateCount} />
+                </StatNumber>
+                <StatLabel>제품 라인업</StatLabel>
+              </StatItem>
+              <StatItem>
+                <StatNumber>
+                  <AnimatedCounter end={18} suffix="+" shouldStart={shouldAnimateCount} />
+                </StatNumber>
+                <StatLabel>연혁</StatLabel>
+              </StatItem>
+              <StatItem>
+                <StatNumber>
+                  <AnimatedCounter end={98} suffix="%" shouldStart={shouldAnimateCount} />
+                </StatNumber>
+                <StatLabel>고객만족도</StatLabel>
+              </StatItem>
+            </StatsGrid>
+          </ContentSection>
+        </HeroContainer>
+      </HeroWrapper>
+      </MainContentWrapper>
+
+      {/* 인트로 overlay */}
+      <IntroOverlay $visible={animationPhase !== 'complete'}>
+        <IntroText>
+          {textLines.map((line, lineIndex) => (
+            <IntroLine key={lineIndex}>
+              {line.split('').map((char, charIndex) => (
+                <CharSpan
+                  key={charIndex}
+                  $show={showLines[lineIndex]?.[charIndex] || false}
+                >
+                  {char === ' ' ? '\u00A0' : char}
+                </CharSpan>
+              ))}
+            </IntroLine>
+          ))}
+        </IntroText>
+      </IntroOverlay>
+    </>
+    
   )
 }
+
+const MainContentWrapper = styled.div`
+  width: 100%;
+  position: relative;
+  z-index: 1;
+`;
+
+// 인트로 오버레이 (화면 전체 덮음)
+const IntroOverlay = styled.div<{ $visible: boolean }>`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: white;
+  z-index: 9999; /* 최상위 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  /* 페이드 아웃 효과 */
+  opacity: ${props => props.$visible ? 1 : 0};
+  pointer-events: ${props => props.$visible ? 'auto' : 'none'};
+  transition: opacity 1s ease-in-out;
+`;
+
+const IntroText = styled.div`
+  font-size: 80px;
+  font-weight: 800;
+  color: ${theme.colors.text.primary};
+  line-height: 1.3;
+  text-align: center;
+  
+  @media (max-width: 768px) {
+    font-size: 36px;
+    padding: 0 20px;
+    word-break: keep-all;
+  }
+`;
+
+const IntroLine = styled.div`
+  display: block;
+`;
 
 // 애니메이션 정의
 const charAppear = keyframes`
