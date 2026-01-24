@@ -87,9 +87,17 @@ const FooterContent = styled.div`
   grid-template-columns: 1fr 2fr;
   gap: 60px;
 
+  /* 태블릿 */
+  @media (max-width: 1024px) {
+    padding: 50px 20px 30px;
+    gap: 40px;
+  }
+
+  /* 모바일 */
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
     gap: 40px;
+    padding: 40px 20px 30px;
   }
 `
 
@@ -137,25 +145,52 @@ const CompanyDescription = styled.p`
   line-height: 1.6;
   color: #666;
   margin: 0;
+  word-break: keep-all; /* 단어 단위 줄바꿈 */
+
+  @media (max-width: 768px) {
+    font-size: 13px;
+    padding-top: 16px;
+    line-height: 1.7;
+  }
 `
 
 const LinksSection = styled.div`
   display: flex;
   justify-content: space-between;
+  gap: 40px; /* 컬럼 간 간격 */
 
-  @media (max-width: 768px) {
-    grid-template-columns: 1fr;
+  /* 태블릿 */
+  @media (max-width: 1024px) {
     gap: 30px;
+  }
+
+  /* 모바일 - 세로 배치 */
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 32px;
   }
 `
 
-const LinkColumn = styled.div``
+const LinkColumn = styled.div`
+  flex: 1;
+  min-width: 0; /* flex 아이템이 넘치지 않도록 */
+  
+  @media (max-width: 768px) {
+    flex: none; /* 모바일에서는 flex 해제 */
+    width: 100%;
+  }
+`
 
 const ColumnTitle = styled.h3`
   font-size: 18px;
   font-weight: 600;
   margin-bottom: 20px;
   color: #333;
+
+  @media (max-width: 768px) {
+    font-size: 16px;
+    margin-bottom: 16px;
+  }
 `
 
 const LinkList = styled.ul`
@@ -172,9 +207,22 @@ const LinkItem = styled.li`
     text-decoration: none;
     font-size: 14px;
     transition: color 0.3s;
+    display: inline-block;
+    word-break: keep-all; /* 한국어 단어 단위 줄바꿈 */
+    overflow-wrap: break-word; /* 긴 영문 단어 줄바꿈 */
+    line-height: 1.6;
 
     &:hover {
       color: ${theme.colors.primary};
+    }
+  }
+
+  @media (max-width: 768px) {
+    margin-bottom: 10px;
+    
+    a {
+      font-size: 13px;
+      line-height: 1.7;
     }
   }
 `
@@ -186,6 +234,14 @@ const InfoItem = styled.p`
   color: #666;
   margin: 0 0 12px 0;
   line-height: 1.6;
+  word-break: keep-all; /* 한국어 단어 단위 줄바꿈 */
+  overflow-wrap: break-word; /* 긴 텍스트(이메일, 주소 등) 줄바꿈 */
+
+  @media (max-width: 768px) {
+    font-size: 13px;
+    line-height: 1.7;
+    margin-bottom: 10px;
+  }
 `
 
 const Copyright = styled.div`
@@ -197,5 +253,13 @@ const Copyright = styled.div`
     margin: 0;
     font-size: 12px;
     color: #999;
+  }
+
+  @media (max-width: 768px) {
+    padding: 16px;
+    
+    p {
+      font-size: 11px;
+    }
   }
 `
