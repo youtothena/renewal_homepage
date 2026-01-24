@@ -59,7 +59,7 @@ export default function ProductPage({ params }: PageProps) {
         {/* 상단 카테고리 탭 (논슬립, 마감재, 굽도리) */}
         <CategoryTabs>
             {Object.values(PRODUCT_DATA).map((cat) => (
-                <CategoryTab 
+                <CategoryTab
                     key={cat.id} 
                     href={cat.subCategories ? `/products/${cat.id}/${cat.subCategories[0].id}` : `/products/${cat.id}`}
                     $isActive={categoryId === cat.id}
@@ -209,7 +209,9 @@ const CategoryTabs = styled.div`
   }
 `
 
-const CategoryTab = styled(Link)<{ $isActive: boolean }>`
+const CategoryTab = styled(Link, {
+  shouldForwardProp: (prop) => prop !== '$isActive',
+})<{ $isActive: boolean }>`
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -264,7 +266,9 @@ const SubCategoryTabs = styled.div`
   }
 `
 
-const SubTab = styled(Link)<{ $isActive: boolean }>`
+const SubTab = styled(Link, {
+  shouldForwardProp: (prop) => prop !== '$isActive',
+})<{ $isActive: boolean }>`
   padding: 16px 4px;
   text-decoration: none;
   color: ${props => props.$isActive ? theme.colors.primary : theme.colors.text.secondary};

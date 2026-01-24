@@ -93,7 +93,7 @@ export default function Header() {
             </NavItem>
 
             <NavItem>
-              <NavLink href="#" onClick={closeMobileMenu}>
+              <NavLink href="/gallery" onClick={closeMobileMenu}>
                 시공갤러리
               </NavLink>
             </NavItem>

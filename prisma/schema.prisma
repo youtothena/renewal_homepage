@@ -75,6 +75,9 @@ model Gallery {
   title     String
   content   String?
   images    String[]
+  location  String?  // 지역 (서울, 경기, 부산 등)
+  category  String?  // 카테고리 (학교/관공서, 지하철/역사 등)
+  status    String?  @default("미끄럼방지 시공 완료") // 상태 메시지
   views     Int      @default(0)
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
@@ -83,6 +86,8 @@ model Gallery {
 
   @@index([createdAt(sort: Desc)])
   @@index([userId])
+  @@index([location])
+  @@index([category])
   @@map("galleries")
 }
 
