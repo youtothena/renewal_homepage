@@ -1,9 +1,10 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import coolsms from 'coolsms-node-sdk';
+import {SolapiMessageService} from 'solapi';
 
 // CoolSMS 클라이언트 초기화
-const messageService = new coolsms(
+const messageService = new SolapiMessageService(
   process.env.NEXT_PUBLIC_COOLSMS_API_KEY!,
   process.env.NEXT_PUBLIC_COOLSMS_API_SECRET!
 );
@@ -28,7 +29,7 @@ export async function POST(req: Request) {
     try {
         const textMessage = `[홈페이지 문의 접수]\n- 회사명: ${company}\n- 담당자: ${name}\n- 연락처: ${contact}\n\n내용:\n${content}`;
 
-        await messageService.sendOne({
+        await messageService.send({
             to: process.env.NEXT_PUBLIC_ADMIN_PHONE_NUMBER!, // 알림 받을 관리자 번호
             from: process.env.NEXT_PUBLIC_COOLSMS_SENDER_NUMBER!, // 등록된 발신 번호
             text: textMessage,
@@ -36,9 +37,12 @@ export async function POST(req: Request) {
         });
         
         console.log('문자 발송 성공');
-    } catch (smsError) {
-        console.error('문자 발송 실패:', smsError);
-        // 문자는 실패해도 DB 저장은 성공했으므로 계속 진행
+    } catch (smsError: any) {
+      console.error('문자 발송 실패 상세:', JSON.stringify(smsError, null, 2));
+        
+      if (smsError.code) {
+           console.error('CoolSMS Error Code:', smsError.code);
+      }
     }
 
     return NextResponse.json({ 

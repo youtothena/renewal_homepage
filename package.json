@@ -36,6 +36,7 @@
     "react-hook-form": "^7.52.1",
     "react-naver-maps": "^0.1.4",
     "sharp": "^0.33.4",
+    "solapi": "^5.5.4",
     "swiper": "^11.1.4",
     "vercel": "^25.2.0",
     "zod": "^3.23.8",
