@@ -26,13 +26,13 @@ export default function Footer() {
             <ColumnTitle>주요 페이지</ColumnTitle>
             <LinkList>
               <LinkItem>
-                <Link href="/">회사소개</Link>
+                <Link href="/company/intro">회사소개</Link>
               </LinkItem>
               <LinkItem>
-                <Link href="/about">제품소개</Link>
+                <Link href="/products/nonslip/ceramic">제품소개</Link>
               </LinkItem>
               <LinkItem>
-                <Link href="/products">시공갤러리</Link>
+                <Link href="/gallery">시공갤러리</Link>
               </LinkItem>
             </LinkList>
           </LinkColumn>
@@ -41,16 +41,16 @@ export default function Footer() {
             <ColumnTitle>회사 정보</ColumnTitle>
             <LinkList>
               <LinkItem>
-                <Link href="/legal/imprint">상호: 서경산업</Link>
+                <Link href="">상호: 서경산업</Link>
               </LinkItem>
               <LinkItem>
-                <Link href="/legal/privacy">대표: 이남영</Link>
+                <Link href="">대표: 이남영</Link>
               </LinkItem>
               <LinkItem>
-                <Link href="/legal/cookies">사업자번호: 132-21-24492</Link>
+                <Link href="">사업자번호: 132-21-24492</Link>
               </LinkItem>
               <LinkItem>
-                <Link href="/legal/cookies">주소: 경기도 남양주시 오남읍 양지로 81번길 19</Link>
+                <Link target="_blank" href="https://map.naver.com/p/directions/-/14160319.7506183,4535095.7998733,%EC%84%9C%EA%B2%BD%EC%82%B0%EC%97%85,33254233,PLACE_POI/-/transit?c=15.00,0,0,0,dh">주소: 경기도 남양주시 오남읍 양지로 81번길 19</Link>
               </LinkItem>
             </LinkList>
           </LinkColumn>
