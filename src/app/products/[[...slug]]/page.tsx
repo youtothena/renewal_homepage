@@ -16,11 +16,11 @@ interface PageProps {
 export default function ProductPage({ params }: PageProps) {
   const router = useRouter()
   const slug = params.slug || []
-  
+
   // URL 파싱 및 기본값 설정 로직
   const categoryId = slug[0] || 'nonslip'
   const currentCategory = PRODUCT_DATA[categoryId]
-  
+
   // 유효하지 않은 카테고리인 경우 처리 (옵션)
   if (!currentCategory) {
     // 404 처리 혹은 리다이렉트
@@ -29,14 +29,14 @@ export default function ProductPage({ params }: PageProps) {
 
   const hasSubCategories = !!currentCategory.subCategories
   const subCategoryId = slug[1]
-  
+
   // 서브카테고리가 있는데 선택되지 않았거나 잘못된 경우 첫 번째 서브카테고리로 리다이렉트
   // 단, 렌더링 중에 리다이렉트하면 에러가 날 수 있으므로 useEffect 사용
   useEffect(() => {
     if (!slug[0]) {
-        router.replace('/products/nonslip/ceramic')
+      router.replace('/products/nonslip/ceramic')
     } else if (hasSubCategories && !subCategoryId && currentCategory.subCategories) {
-        router.replace(`/products/${categoryId}/${currentCategory.subCategories[0].id}`)
+      router.replace(`/products/${categoryId}/${currentCategory.subCategories[0].id}`)
     }
   }, [slug, hasSubCategories, subCategoryId, categoryId, currentCategory, router])
 
@@ -55,27 +55,27 @@ export default function ProductPage({ params }: PageProps) {
     <Container>
       <HeaderSection>
         <PageTitle>제품소개</PageTitle>
-        
+
         {/* 상단 카테고리 탭 (논슬립, 마감재, 굽도리) */}
         <CategoryTabs>
-            {Object.values(PRODUCT_DATA).map((cat) => (
-                <CategoryTab
-                    key={cat.id} 
-                    href={cat.subCategories ? `/products/${cat.id}/${cat.subCategories[0].id}` : `/products/${cat.id}`}
-                    $isActive={categoryId === cat.id}
-                >
-                    <TabIcon src={cat.image} alt={cat.name} />
-                    <TabName>{cat.name}</TabName>
-                    <TabDesc>{cat.description}</TabDesc>
-                </CategoryTab>
-            ))}
+          {Object.values(PRODUCT_DATA).map((cat) => (
+            <CategoryTab
+              key={cat.id}
+              href={cat.subCategories ? `/products/${cat.id}/${cat.subCategories[0].id}` : `/products/${cat.id}`}
+              $isActive={categoryId === cat.id}
+            >
+              <TabIcon src={cat.image} alt={cat.name} />
+              <TabName>{cat.name}</TabName>
+              <TabDesc>{cat.description}</TabDesc>
+            </CategoryTab>
+          ))}
         </CategoryTabs>
 
         {/* 하단 서브카테고리 탭 (세라믹, 알루미늄 등 - 논슬립인 경우에만 노출) */}
         {hasSubCategories && currentCategory.subCategories && (
           <SubCategoryTabs>
             {currentCategory.subCategories.map((sub) => (
-              <SubTab 
+              <SubTab
                 key={sub.id}
                 href={`/products/${categoryId}/${sub.id}`}
                 $isActive={subCategoryId === sub.id}
@@ -89,86 +89,86 @@ export default function ProductPage({ params }: PageProps) {
 
       <ContentSection>
         <SectionTitle>
-            {hasSubCategories ? activeSubCategory?.name : currentCategory.name}
-            {/* 세부 모델명 등이 있다면 여기에 추가 */}
+          {hasSubCategories ? activeSubCategory?.name : currentCategory.name}
+          {/* 세부 모델명 등이 있다면 여기에 추가 */}
         </SectionTitle>
 
         {currentProducts.length > 0 ? (
-            <ProductList>
-                {currentProducts.map((product) => (
-                    <ProductItem key={product.id}>
-                        {/* 왼쪽 이미지 영역 (세로 중앙 정렬) */}
-                        <ImageArea>
-                            <ProductImg src={product.image} alt={product.name} />
-                        </ImageArea>
+          <ProductList>
+            {currentProducts.map((product) => (
+              <ProductItem key={product.id}>
+                {/* 왼쪽 이미지 영역 (세로 중앙 정렬) */}
+                <ImageArea>
+                  <ProductImg src={product.image} alt={product.name} />
+                </ImageArea>
 
-                        {/* 오른쪽 정보 영역 (높이 유동적) */}
-                        <InfoArea>
-                            <InfoTitle>{product.name}</InfoTitle>
+                {/* 오른쪽 정보 영역 (높이 유동적) */}
+                <InfoArea>
+                  <InfoTitle>{product.name}</InfoTitle>
 
-                            {/* 규격 정보 박스 */}
-                            <SpecGrid>
-                              {product.specs.size && <SpecBox>
-                                    <SpecLabel>규격 (Size)</SpecLabel>
-                                    <SpecValue>{product.specs.size}</SpecValue>
-                                </SpecBox>}
-                                
-                                {product.specs.thickness && (
-                                    <SpecBox>
-                                        <SpecLabel>두께 (Thickness)</SpecLabel>
-                                        <SpecValue>{product.specs.thickness}</SpecValue>
-                                    </SpecBox>
-                                )}
+                  {/* 규격 정보 박스 */}
+                  <SpecGrid>
+                    {product.specs.size && <SpecBox>
+                      <SpecLabel>규격 (Size)</SpecLabel>
+                      <SpecValue>{product.specs.size}</SpecValue>
+                    </SpecBox>}
 
-                                {!product.specs.thickness && product.specs.length && (
-                                    <SpecBox>
-                                        <SpecLabel>길이 (Length)</SpecLabel>
-                                        <SpecValue>{(product.specs as any).length}</SpecValue>
-                                    </SpecBox>
-                                )}
-                            </SpecGrid>
+                    {product.specs.thickness && (
+                      <SpecBox>
+                        <SpecLabel>두께 (Thickness)</SpecLabel>
+                        <SpecValue>{product.specs.thickness}</SpecValue>
+                      </SpecBox>
+                    )}
 
-                            {/* 제품 특징 */}
-                            {product.features.length > 0 && (
-                                <DetailSection>
-                                    <DetailLabel>제품특징</DetailLabel>
-                                    <DetailList>
-                                        {product.features.map((item, idx) => (
-                                            <DetailItem key={idx}> {item}</DetailItem>
-                                        ))}
-                                    </DetailList>
-                                </DetailSection>
-                            )}
+                    {!product.specs.thickness && product.specs.length && (
+                      <SpecBox>
+                        <SpecLabel>길이 (Length)</SpecLabel>
+                        <SpecValue>{(product.specs as any).length}</SpecValue>
+                      </SpecBox>
+                    )}
+                  </SpecGrid>
 
-                            {/* 적용처 */}
-                            {product.applications.length > 0 && (
-                                <DetailSection>
-                                    <DetailLabel>적용처</DetailLabel>
-                                    <DetailList>
-                                        {product.applications.map((item, idx) => (
-                                            <DetailItem key={idx}> {item}</DetailItem>
-                                        ))}
-                                    </DetailList>
-                                </DetailSection>
-                            )}
+                  {/* 제품 특징 */}
+                  {product.features.length > 0 && (
+                    <DetailSection>
+                      <DetailLabel>제품특징</DetailLabel>
+                      <DetailList>
+                        {product.features.map((item, idx) => (
+                          <DetailItem key={idx}> {item}</DetailItem>
+                        ))}
+                      </DetailList>
+                    </DetailSection>
+                  )}
 
-                            {/* 시공법 */}
-                            {product.construction.length > 0 && (
-                                <DetailSection>
-                                    <DetailLabel>시공법</DetailLabel>
-                                    <DetailList>
-                                        {product.construction.map((item, idx) => (
-                                            <DetailItem key={idx}>{item}</DetailItem>
-                                        ))}
-                                    </DetailList>
-                                </DetailSection>
-                            )}
-                        </InfoArea>
-                    </ProductItem>
-                ))}
-            </ProductList>
+                  {/* 적용처 */}
+                  {product.applications.length > 0 && (
+                    <DetailSection>
+                      <DetailLabel>적용처</DetailLabel>
+                      <DetailList>
+                        {product.applications.map((item, idx) => (
+                          <DetailItem key={idx}> {item}</DetailItem>
+                        ))}
+                      </DetailList>
+                    </DetailSection>
+                  )}
+
+                  {/* 시공법 */}
+                  {product.construction.length > 0 && (
+                    <DetailSection>
+                      <DetailLabel>시공법</DetailLabel>
+                      <DetailList>
+                        {product.construction.map((item, idx) => (
+                          <DetailItem key={idx}>{item}</DetailItem>
+                        ))}
+                      </DetailList>
+                    </DetailSection>
+                  )}
+                </InfoArea>
+              </ProductItem>
+            ))}
+          </ProductList>
         ) : (
-            <EmptyState>등록된 제품이 없습니다.</EmptyState>
+          <EmptyState>등록된 제품이 없습니다.</EmptyState>
         )}
       </ContentSection>
     </Container>
@@ -211,13 +211,13 @@ const CategoryTabs = styled.div`
 
 const CategoryTab = styled(Link, {
   shouldForwardProp: (prop) => prop !== '$isActive',
-})<{ $isActive: boolean }>`
+}) <{ $isActive: boolean }>`
   flex: 1;
   display: flex;
   flex-direction: column;
-  align-items: center; /* 가로 중앙 정렬 */
-  justify-content: center; /* 세로 중앙 정렬 */
-  text-align: center; /* 텍스트 중앙 정렬 */
+  align-items: center;
+  justify-content: center;
+  text-align: center;
   padding: 30px;
   background: ${props => props.$isActive ? theme.colors.primary : '#f8f9fa'};
   border-radius: 12px;
@@ -268,7 +268,7 @@ const SubCategoryTabs = styled.div`
 
 const SubTab = styled(Link, {
   shouldForwardProp: (prop) => prop !== '$isActive',
-})<{ $isActive: boolean }>`
+}) <{ $isActive: boolean }>`
   padding: 16px 4px;
   text-decoration: none;
   color: ${props => props.$isActive ? theme.colors.primary : theme.colors.text.secondary};
@@ -331,16 +331,16 @@ const ProductImg = styled.img`
   max-width: 100%;
   max-height: 100%;
   object-fit: contain;
+  border-radius: 8px;
 `
 const InfoArea = styled.div`
   flex: 1;
   background: white;
   border-radius: 12px;
-  /* 왼쪽 파란색 바를 위한 설정 */
   border-left: 6px solid ${theme.colors.primary}; 
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08); /* 부드러운 그림자 추가 */
   padding: 50px; /* 내부 여백 넉넉하게 */
-  height: fit-content;
+  height: full;
   position: relative;
 `
 

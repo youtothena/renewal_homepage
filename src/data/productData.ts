@@ -111,7 +111,7 @@ export interface Product {
               name: '세라믹 논슬립 색상표',
               specs: {},
               features: [
-                '세라믹논슬립 제품에 대한 색상표입니다.',
+                '세라믹논슬립 제품에 대한 색상표',
               ],
               applications: [],
               construction: [],
@@ -263,8 +263,10 @@ export interface Product {
             {
               id: 'nonslip-tape-color',
               name: '논슬립 테이프 색상표',
-              specs: { size: '50m/m x 15m, 50m/m x 30m' },
-              features: ['색상: 회색, 밤색, 검정색, 스톤색, 녹색, 노란색, 와인색, 안전사선'],
+              specs: {},
+              features: [
+                '논슬립 테이프 제품에 대한 색상표',
+              ],
               applications: [],
               construction: [],
               image: '/images/product/nonSlip/tape_colors.png',
@@ -296,10 +298,12 @@ export interface Product {
               id: 'wallBase-colors',
               name: 'Wall Base 색상표',
               specs: {},
-              features: [],
+              features: [
+                'Wall Base 제품에 대한 색상표',
+              ],
               applications: [],
               construction: [],
-              image: '/images/product/wallBase/gub_wallBase_color.png',
+              image: '/images/product/wallBase/gub_wallBase_colors.png',
             },
           ],
         },
@@ -320,7 +324,9 @@ export interface Product {
               id: 'wood-wallBase-colors',
               name: '우드 굽도리 색상표',
               specs: {},
-              features: [],
+              features: [
+                '우드 굽도리 제품에 대한 색상표',
+              ],
               applications: [],
               construction: [],
               image: '/images/product/wallBase/gub_wood_colors.jpg'
@@ -344,7 +350,9 @@ export interface Product {
               id: 'plain-wallBase-colors',
               name: '무지 굽도리 색상표',
               specs: {},
-              features: [],
+              features: [
+                '무지 굽도리 제품에 대한 색상표',
+              ],
               applications: [],
               construction: [],
               image: '/images/product/wallBase/gub_plain_colors.jpg'
