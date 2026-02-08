@@ -29,7 +29,14 @@ export async function POST(req: Request) {
     try {
         const textMessage = `[홈페이지 문의 접수]\n- 회사명: ${company}\n- 담당자: ${name}\n- 연락처: ${contact}\n\n내용:\n${content}`;
 
-        await messageService.send({
+        console.log('SMS 환경변수 확인:', {
+          apiKey: process.env.NEXT_PUBLIC_COOLSMS_API_KEY ? '설정됨' : '❌ 미설정',
+          apiSecret: process.env.NEXT_PUBLIC_COOLSMS_API_SECRET ? '설정됨' : '❌ 미설정',
+          to: process.env.NEXT_PUBLIC_ADMIN_PHONE_NUMBER || '❌ 미설정',
+          from: process.env.NEXT_PUBLIC_COOLSMS_SENDER_NUMBER || '❌ 미설정',
+        });
+        
+        await messageService.sendOne({
             to: process.env.NEXT_PUBLIC_ADMIN_PHONE_NUMBER!, // 알림 받을 관리자 번호
             from: process.env.NEXT_PUBLIC_COOLSMS_SENDER_NUMBER!, // 등록된 발신 번호
             text: textMessage,
