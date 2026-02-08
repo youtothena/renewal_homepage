@@ -159,6 +159,16 @@ export default function MainSection({ onAnimationComplete }: MainSectionProps) {
             </StatsGrid>
           </ContentSection>
         </HeroContainer>
+
+        {/* 스크롤 안내 인디케이터 */}
+        <ScrollIndicator $phase={animationPhase}>
+          <ScrollText>Scroll Down</ScrollText>
+          <ScrollArrow>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M12 5v14M5 12l7 7 7-7" />
+            </svg>
+          </ScrollArrow>
+        </ScrollIndicator>
       </HeroWrapper>
       </MainContentWrapper>
 
@@ -444,23 +454,43 @@ const StatLabel = styled.div`
   margin-left: 5px;
 `
 
-const ImageSection = styled.div<{ $phase: string }>`
-  position: relative;
-  width: 100%;
-  height: 600px;
-  opacity: ${props => props.$phase === 'complete' ? 1 : 0};
-  transform: translateX(${props => props.$phase === 'complete' ? '0' : '50px'});
-  transition: all 1s cubic-bezier(0.4, 0, 0.2, 1) 0.3s;
-
-  @media (max-width: 1024px) {
-    height: 400px;
-    margin-top: 40px;
+// 스크롤 안내 인디케이터
+const scrollBounce = keyframes`
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(10px);
   }
 `
 
-const ProductImage = styled.img`
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  filter: drop-shadow(0 30px 60px rgba(0, 0, 0, 0.12));
+const ScrollIndicator = styled.div<{ $phase: string }>`
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  opacity: ${props => props.$phase === 'complete' ? 1 : 0};
+  transition: opacity 1s ease 0.8s;
+  z-index: 3;
+
+  @media (max-width: 768px) {
+    bottom: 24px;
+  }
+`
+
+const ScrollText = styled.span`
+  font-size: 12px;
+  font-weight: 600;
+  color: ${theme.colors.text.secondary};
+  letter-spacing: 2px;
+  text-transform: uppercase;
+`
+
+const ScrollArrow = styled.div`
+  color: ${theme.colors.primary};
+  animation: ${scrollBounce} 2s ease-in-out infinite;
 `
