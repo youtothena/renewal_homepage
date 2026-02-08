@@ -97,7 +97,8 @@ const ProductContainer = styled.div<{ $isVisible: boolean }>`
   padding: 0 40px;
   opacity: ${props => props.$isVisible ? 1 : 0};
   transform: translateY(${props => props.$isVisible ? '0' : '40px'});
-  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 
   @media (max-width: 768px) {
     padding: 0 24px;
@@ -224,6 +225,13 @@ const ProductCard = styled(Link)<{ $delay: number; $isVisible: boolean }>`
   transition: opacity 0.6s ease ${props => props.$delay + 0.3}s,
               transform 0.6s ease ${props => props.$delay + 0.3}s,
               box-shadow 0.3s ease;
+
+  /* isVisible 완료 후 hover 트랜지션은 딜레이 없이 동작하도록 */
+  ${props => props.$isVisible && `
+    transition: opacity 0.3s ease,
+                transform 0.3s ease,
+                box-shadow 0.3s ease;
+  `}
 
   &:hover {
     transform: translateY(-8px);
